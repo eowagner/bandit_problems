@@ -6,7 +6,7 @@ function Network(agents, machines, adjacencyMatrix) {
 	this.getActs = function() {
 		var acts = [];
 		for (var i=0; i<this.agents.length; i++) {
-			acts[i] = this.agents[i].getMachineToPlay();
+				acts[i] = this.agents[i].getMachineToPlay();
 		}
 		return acts;
 	}
@@ -40,6 +40,52 @@ function Network(agents, machines, adjacencyMatrix) {
 		return true;
 	}
 }
+
+function DummyNetwork(agents, machines, adjacencyMatrix) {
+	Network.call(this, agents, machines, adjacencyMatrix);
+
+	this.hasDummyLearned = function(target_index) {
+		if (this.agents[0].getBestMachine() != target_index)
+			return false;
+		return true;
+	}
+
+	this.step = function() {
+		var acts = this.getActs();
+		var payouts = this.getPayouts(acts);
+	
+		for (var i=0; i<this.adjacencyMatrix.length; i++) {
+			// The Dummy agents (index=0) does not actually act
+			for (var j=1; j<this.adjacencyMatrix.length; j++) {
+				if (this.adjacencyMatrix[i][j] == 1)
+					this.agents[i].update(acts[j],payouts[j]);
+			}
+		}
+	}
+}
+
+DummyNetwork.prototype = Object.create(Network.prototype);
+DummyNetwork.prototype.constructor = DummyNetwork;
+
+function DoubleDummyNetwork(agents, machines, adjMat1, adjMat2) {
+	DummyNetwork.call(this, agents, machines, adjMat1);
+	this.adjMatrices = [adjMat1, adjMat2];
+
+	this.step = function() {
+		var acts = this.getActs();
+		var payouts = this.getPayouts(acts);
+
+		for (var i=0; i<acts.length; i++) {
+			for (var j=0; j<acts.length; j++) {
+				if (this.adjMatrices[acts[j]][i][j]==1)
+					this.agents[i].update(acts[j], payouts[j]);
+			}
+		}
+	}
+}
+
+DoubleDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
+DoubleDummyNetwork.prototype.constructor = DoubleDummyNetwork;
 
 
 //In all of these graphs the everyone sees the hub agent and the hub agent also pulls levers
@@ -136,6 +182,9 @@ function makeLineGraph(numAgents) {
 }
 
 module.exports.Network = Network;
+module.exports.DummyNetwork = DummyNetwork;
+module.exports.DoubleDummyNetwork = DoubleDummyNetwork;
+
 module.exports.makeTwoCliquesGraph = makeTwoCliquesGraph;
 module.exports.makeStarGraph = makeStarGraph;
 module.exports.makeLineGraph = makeLineGraph;

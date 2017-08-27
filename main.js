@@ -12,10 +12,30 @@ for (var i=0; i<num_agents; i++) {
 }
 
 
-var net = new social_networks.Network(agent_list, machine_list, social_networks.makeCompleteGraph(agent_list.length));
+var completeGraph = social_networks.makeCompleteGraph(agent_list.length);
+var cycleGraph = social_networks.makeCompleteGraph(agent_list.length);
 
-for (var t=0; t<100; t++) {
-	net.step();	
+var comp_cycle_net = new social_networks.DoubleDummyNetwork(agent_list, machine_list, completeGraph, cycleGraph);
+
+var start_time = new Date().getTime();
+
+var succ_count = 0;
+
+for (var r=0; r<1000; r++) {
+	agent_list.forEach(function(a) {
+		a.reset();
+	});
+
+	for (var t=0; t<1000; t++) {
+		comp_cycle_net.step();
+	}
+
+	if (comp_cycle_net.hasDummyLearned(1))
+		succ_count++;
 }
 
-console.log(net.hasConvergedTo(1));
+var end_time = new Date().getTime();
+
+console.log(succ_count);
+
+console.log((end_time - start_time)/1000/60);
