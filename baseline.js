@@ -46,7 +46,8 @@ for (var p=.505; p<=.7; p+=.005) {
 
 	for (var r=0; r<runs; r++) {
 		agent_list.forEach(function(a) {
-			a.resetUniformPriors();
+			// a.resetUniformPriors();
+			a.resetRandomInterval([0,4], [0,4]);
 		});
 
 		for (var t=0; t<steps; t++) {
