@@ -19,15 +19,29 @@ function BetaAgent(numMachines) {
 BetaAgent.prototype = Object.create(Agent.prototype);
 BetaAgent.prototype.constructor = BetaAgent;
 
-BetaAgent.prototype.resetWith = function(aInterval,bInterval) {
+BetaAgent.prototype.resetRandomInterval = function(aInterval,bInterval) {
 	for (var i=0; i<this.alphas.length; i++) {
 		this.alphas[i] = aInterval[0] + (aInterval[1]-aInterval[0])*Math.random();
 		this.betas[i] = bInterval[0] + (bInterval[1]-bInterval[0])*Math.random();
 	}
 };
 
+BetaAgent.prototype.resetJeffreyPriors = function() {
+	for (var i=0; i<this.alphas.length; i++) {
+		this.alphas[i] = .5;
+		this.betas[i] = .5;
+	}
+};
+
+BetaAgent.prototype.resetUniformPriors = function() {
+	for (var i=0; i<this.alphas.length; i++) {
+		this.alphas[i] = 1;
+		this.betas[i] = 1;
+	}
+}
+
 BetaAgent.prototype.reset = function() {
-	this.resetWith([0,4],[0,4]);
+	this.resetUniformPriors();
 };
 
 BetaAgent.prototype.update = function(machineIndex, payout) {
