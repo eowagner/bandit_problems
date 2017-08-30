@@ -6,7 +6,7 @@ var social_networks = require('./bandit_utils/social_networks.js');
 var fs = require('fs');
 
 var num_agents = 9;
-var runs = 1000;
+var runs = 100;
 var steps = 1000;
 
 var agent_list = new Array(num_agents);
