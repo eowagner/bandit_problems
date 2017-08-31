@@ -2,7 +2,7 @@ var child_process = require('child_process');
 var fs = require('fs');
 
 const num_agents = 9;
-const runs = 100;
+const runs = 1000;
 const steps = 1000;
 
 var numchild = require('os').cpus().length;
@@ -50,12 +50,12 @@ function print_results(results_table) {
 	stream.once('open', function(fd) {
 		stream.write("# " + info + "\n");
 
-		stream.write('p,uniform_complete,uniform_star,jeffrey_complete,jeffrey_star,random_complete,random_star\n');
+		stream.write('p,uniform_complete_success,uniform_complete_consensus,uniform_star_success,uniform_star_consensus,jeffrey_complete_success,jeffrey_complete_consensus,jeffrey_star_success,jeffrey_star_consensus,random_complete_success,random_compete_consensus,random_star_success,random_star_consensus\n');
 
 		for(var i=0; i<results_table[0].p_list.length; i++) {
 			stream.write(results_table[0].p_list[i].toString());
 			for (var j=0; j<results_table.length; j++) {
-				stream.write("," + results_table[j].succ_complete[i] + "," + results_table[j].succ_star[i]);
+				stream.write("," + results_table[j].success_complete[i] +"," + results_table[j].consensus_complete[i] + "," + results_table[j].success_star[i] + "," + results_table[j].consensus_star[i]);
 			}
 			stream.write("\n");
 		}

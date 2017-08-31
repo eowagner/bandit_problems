@@ -39,6 +39,13 @@ function Network(agents, machines, adjacencyMatrix) {
 		}
 		return true;
 	}
+
+	this.hasReachedConsensus = function() {
+		var m = this.agents[0].getBestMachine();
+		return this.agents.every(function(a) {
+			return a.getBestMachine() == m
+		});
+	}
 }
 
 function DummyNetwork(agents, machines, adjacencyMatrix) {

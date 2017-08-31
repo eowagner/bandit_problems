@@ -2,22 +2,22 @@ import pandas
 import matplotlib.pyplot as plt
 
 
-df = pandas.read_csv('100-run.csv', comment="#")
+df = pandas.read_csv('baseline-1k-larger.csv', comment="#")
 
 # print(df)
 
-axU = df.plot(kind="scatter", x="p", y="uniform_complete", color="r", label="Uniform priors, Complete graph")
-df.plot(kind="scatter", x="p", y="uniform_star", color="b", label="Uniform priors, Star graph", ax=axU)
+axU = df.plot(kind="scatter", x="p", y="uniform_complete_success", color="r", label="Uniform priors, Complete graph")
+df.plot(kind="scatter", x="p", y="uniform_star_success", color="b", label="Uniform priors, Star graph", ax=axU)
 
-axJ = df.plot(kind="scatter", x="p", y="jeffrey_complete", color="r", label="Jeffrey priors, Complete graph")
-df.plot(kind="scatter", x="p", y="jeffrey_star", color="b", label="Jeffrey priors, Star graph", ax=axJ)
+axJ = df.plot(kind="scatter", x="p", y="jeffrey_complete_success", color="r", label="Jeffrey priors, Complete graph")
+df.plot(kind="scatter", x="p", y="jeffrey_star_success", color="b", label="Jeffrey priors, Star graph", ax=axJ)
 
-axR = df.plot(kind="scatter", x="p", y="random_complete", color="r", label="Random priors, Complete graph")
-df.plot(kind="scatter", x="p", y="random_star", color="b", label="Random priors, Star graph", ax=axR)
+axR = df.plot(kind="scatter", x="p", y="random_complete_success", color="r", label="Random priors, Complete graph")
+df.plot(kind="scatter", x="p", y="random_star_success", color="b", label="Random priors, Star graph", ax=axR)
 
-axPriors = df.plot(kind="scatter", x="p", y="uniform_complete", color="r", label="Uniform priors")
-df.plot(kind="scatter", x="p", y="jeffrey_complete", color="b", label="Jeffrey priors", ax=axPriors)
-df.plot(kind="scatter", x="p", y="random_complete", color="g", label="Random priors", ax=axPriors)
+axPriors = df.plot(kind="scatter", x="p", y="uniform_complete_success", color="r", label="Uniform priors")
+df.plot(kind="scatter", x="p", y="jeffrey_complete_success", color="b", label="Jeffrey priors", ax=axPriors)
+df.plot(kind="scatter", x="p", y="random_complete_success", color="g", label="Random priors", ax=axPriors)
 
 plt.show()
 

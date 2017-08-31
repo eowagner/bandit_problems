@@ -11,18 +11,21 @@ function simulate(parameters) {
 	}
 
 	var completeGraph = social_networks.makeCompleteGraph(agent_list.length);
-	// var cycleGraph = social_networks.makeCycleGraph(agent_list.length);
 	var starGraph = social_networks.makeStarGraph(agent_list.length);
 
 	var p_list = [];
-	var succ_complete = [];
-	var succ_star = [];
+	var success_complete = [];
+	var consensus_complete = [];
+	var success_star = [];
+	var consensus_star = [];
 	var index = 0;
 
-	for (var p=.505; p<=.7; p+=.005) {
+	for (var p=.505; p<=.805; p+=.005) {
 		p_list.push(p);
-		succ_complete.push(0);
-		succ_star.push(0);
+		success_complete.push(0);
+		consensus_complete.push(0);
+		success_star.push(0);
+		consensus_star.push(0);
 
 		var machine_list = [new slot_machines.BernoulliMachine(.5), new slot_machines.BernoulliMachine(p)];
 		var netComplete = new social_networks.DummyNetwork(agent_list, machine_list, completeGraph);
@@ -43,7 +46,10 @@ function simulate(parameters) {
 			}
 
 			if (netComplete.hasDummyLearned(1))
-				succ_complete[index]++;
+				success_complete[index]++;
+
+			if (netStar.hasReachedConsensus())
+				consensus_complete[index]++;
 		}
 
 		for (var r=0; r<parameters.runs; r++) {
@@ -56,17 +62,22 @@ function simulate(parameters) {
 			}
 
 			if (netStar.hasDummyLearned(1))
-				succ_star[index]++;
+				success_star[index]++;
+
+			if (netStar.hasReachedConsensus())
+				consensus_star[index]++;
 		}
 
-		console.log(parameters.priors_index + ", " + p + ": " + succ_complete[index] + ", " + succ_star[index]);
+		console.log(parameters.priors_index + ", " + p + ": (" + success_complete[index] + ", " + consensus_complete[index] + "), (" + success_star[index] + ", " + consensus_star[index] + ")");
 		index++;
 	}
 
 	return {
 		p_list: p_list,
-		succ_complete: succ_complete,
-		succ_star: succ_star
+		success_complete: success_complete,
+		consensus_complete: consensus_complete,
+		success_star: success_star,
+		consensus_star: consensus_star
 	};
 }
 
