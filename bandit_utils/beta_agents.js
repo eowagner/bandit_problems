@@ -12,8 +12,6 @@ function BetaAgent(numMachines) {
 		this.alphas[i] = 0;
 		this.betas[i] = 0;
 	}
-
-	this.reset();
 }
 
 BetaAgent.prototype = Object.create(Agent.prototype);
@@ -50,7 +48,10 @@ BetaAgent.prototype.update = function(machineIndex, payout) {
 };
 
 BetaAgent.prototype.getMachineToPlay = function() {
-	return this.getBestMachine();
+	var best_list = this.getBestMachine();
+
+	return best_list[Math.floor(Math.random() * best_list.length)];
+	// return this.getBestMachine();
 };
 
 BetaAgent.prototype.getBestMachine = function() {
@@ -60,8 +61,33 @@ BetaAgent.prototype.getBestMachine = function() {
 		exps[i] = this.alphas[i] / (this.alphas[i]+this.betas[i]);
 	}
 
-	return exps.indexOf(Math.max.apply(null,exps));
+	var m = Math.max.apply(null, exps);
+
+	var bests = [];
+
+	for (var i=0; i<exps.length; i++) {
+		if (exps[i] >= m) {
+			bests.push(i);
+		}
+	}
+
+	return bests; // returns an array of the best machines 
+
+	// return exps.indexOf(Math.max.apply(null,exps)); returns first best machine in list
 };
+
+
+function BetaAgentUniformPriors(numMachines) {
+	BetaAgent.call(this,numMachines);
+}
+
+BetaAgentUniformPriors.prototype = Object.create(BetaAgent.prototype);
+BetaAgentUniformPriors.prototype.constructor = BetaAgentUniformPriors;
+
+BetaAgentUniformPriors.prototype.reset = function() {
+	this.resetUniformPriors();
+}
+
 
 //Set mean=0 and variance=Infinity for an improper prior
 function NormalAgentKnownVariance(numMachines, knownVariances) {
@@ -227,5 +253,6 @@ NormalAgentUnknownMeanAndVariance.prototype.varOfMuList = function() {
 
 module.exports.Agent = Agent;
 module.exports.BetaAgent = BetaAgent;
+module.exports.BetaAgentUniformPriors = BetaAgentUniformPriors;
 module.exports.NormalAgentKnownVariance = NormalAgentKnownVariance;
 module.exports.NormalAgentUnknownMeanAndVariance = NormalAgentUnknownMeanAndVariance;

@@ -41,10 +41,15 @@ function Network(agents, machines, adjacencyMatrix) {
 	}
 
 	this.hasReachedConsensus = function() {
-		var m = this.agents[0].getBestMachine();
+		var m = this.agents[0].getMachineToPlay();
 		return this.agents.every(function(a) {
-			return a.getBestMachine() == m
+			return a.getMachineToPlay() == m;
 		});
+		// Malfunctioned when get best machine returned a list
+		// var m = this.agents[0].getBestMachine();
+		// return this.agents.every(function(a) {
+		// 	return a.getBestMachine() == m
+		// });
 	}
 }
 
