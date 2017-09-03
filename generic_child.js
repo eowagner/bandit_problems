@@ -13,16 +13,19 @@ function simulate(parameters) {
 		switch (parameters.priors) {
 			case "uniform":
 			case "u":
-				agent_list.push(new beta_agents.BetaAgent(machine_list.length));
+				// agent_list.push(new beta_agents.BetaAgent(machine_list.length));
+				agent_list.push(new beta_agents.BetaAgentUniformPriors(machine_list.length));
 				break;
 			case "jeffrey":
 			case "j":
+				agent_list.push(new beta_agents.BetaAgentJeffreyPriors(machine_list.length))
 				break;
 			case "random":
 			case "r":
+				agent_list.push(new beta_agents.BetaAgentRandomPriors(machine_list.length));
 				break;
 			default:
-				agent_list.push(new beta_agents.BetaAgent(machine_list.length));
+				agent_list.push(new beta_agents.BetaAgentUniformPriors(machine_list.length));
 		}
 		
 	}
@@ -33,15 +36,8 @@ function simulate(parameters) {
 	}
 
 	var success_counts = new Array(networks.length).fill(0);
-	// for (var i=0; i<success_counts.length; i++) {
-	// 	success_counts[i] = 0;
-	// }
 
 	var consensus_counts = new Array(networks.length).fill(0);
-	// for (var i=0; i<consensus_counts.length; i++) {
-	// 	consensus_counts[i] = 0;
-	// }
-
 
 	for (var net_index=0; net_index<networks.length; net_index++) {
 
@@ -71,9 +67,6 @@ function simulate(parameters) {
 
 
 process.on('message', function(message) {
-	
-	// console.log(message);
-
 	var sim_results = simulate(message);
 
 	process.send(sim_results);

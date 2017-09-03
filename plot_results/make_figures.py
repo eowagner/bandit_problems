@@ -1,6 +1,11 @@
 import pandas
 import matplotlib.pyplot as plt
 
+df = pandas.read_csv('agents-uniform-10k.csv', comment="#")
+
+axA = df.plot(kind="scatter", x="num_agents", y="success_complete", color="r", label="Complete graph, uniform priors")
+df.plot(kind="scatter", x="num_agents", y="success_star", color="b", label="Star graph, uniform priors", ax=axA)
+
 
 df = pandas.read_csv('baseline-100k.csv', comment="#")
 

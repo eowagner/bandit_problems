@@ -77,6 +77,7 @@ BetaAgent.prototype.getBestMachine = function() {
 };
 
 
+// Uniform Priors
 function BetaAgentUniformPriors(numMachines) {
 	BetaAgent.call(this,numMachines);
 }
@@ -86,6 +87,30 @@ BetaAgentUniformPriors.prototype.constructor = BetaAgentUniformPriors;
 
 BetaAgentUniformPriors.prototype.reset = function() {
 	this.resetUniformPriors();
+}
+
+// Jeffrey priors
+function BetaAgentJeffreyPriors(numMachines) {
+	BetaAgent.call(this,numMachines);
+}
+
+BetaAgentJeffreyPriors.prototype = Object.create(BetaAgent.prototype);
+BetaAgentJeffreyPriors.prototype.constructor = BetaAgentJeffreyPriors;
+
+BetaAgentJeffreyPriors.prototype.reset = function() {
+	this.resetJeffreyPriors();
+}
+
+// Random priors automatic [0,4] range
+function BetaAgentRandomPriors(numMachines) {
+	BetaAgent.call(this,numMachines);
+}
+
+BetaAgentRandomPriors.prototype = Object.create(BetaAgent.prototype);
+BetaAgentRandomPriors.prototype.constructor = BetaAgentRandomPriors;
+
+BetaAgentRandomPriors.prototype.reset = function() {
+	this.resetRandomInterval([0,4],[0,4]);
 }
 
 
@@ -254,5 +279,7 @@ NormalAgentUnknownMeanAndVariance.prototype.varOfMuList = function() {
 module.exports.Agent = Agent;
 module.exports.BetaAgent = BetaAgent;
 module.exports.BetaAgentUniformPriors = BetaAgentUniformPriors;
+module.exports.BetaAgentJeffreyPriors = BetaAgentJeffreyPriors;
+module.exports.BetaAgentRandomPriors = BetaAgentRandomPriors;
 module.exports.NormalAgentKnownVariance = NormalAgentKnownVariance;
 module.exports.NormalAgentUnknownMeanAndVariance = NormalAgentUnknownMeanAndVariance;
