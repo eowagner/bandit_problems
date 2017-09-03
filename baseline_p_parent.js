@@ -12,9 +12,11 @@ const runs = 10;
 const steps = 1000;
 const priors = "uniform";
 
-var num_agent_list = [];
-for (var i=3; i<41; i++) {
-	num_agent_list.push(i);
+var num_agents = 9;
+
+var p_list = [];
+for (var q=.505; q<=.805; q+=.005) {
+	p_list.push(q);
 }
 
 var results_as_strings = [];
@@ -24,11 +26,11 @@ var results_as_strings = [];
 var proc_index = 0; 
 var completed_processes = 0;
 
-var machine_ps = [.5, .55];
-var machine_list = [];
-for (var i=0; i<machine_ps.length; i++) {
-	machine_list.push(new slot_machines.BernoulliMachine(machine_ps[i]));
-}
+// var machine_ps = [.5, .55];
+// var machine_list = [];
+// for (var i=0; i<machine_ps.length; i++) {
+// 	machine_list.push(new slot_machines.BernoulliMachine(machine_ps[i]));
+// }
 
 
 var start_time = new Date().getTime();
@@ -38,15 +40,15 @@ for (var i=0; i<numCPUs; i++) {
 }
 
 function launch_next_child() {
-	if (proc_index >= num_agent_list.length)
+	if (proc_index >= p_list.length)
 		return;	
 
-	var complete_graph = social_networks.makeCompleteGraph(num_agent_list[proc_index]);
-	var star_graph = social_networks.makeStarGraph(num_agent_list[proc_index]);
+	var complete_graph = social_networks.makeCompleteGraph(num_agents);
+	var star_graph = social_networks.makeStarGraph(num_agents);
 
 	var parameters = {
 		priors: priors,
-		p: [.5, .55],
+		p: [.5, p_list[proc_index]],
 		target: 1,
 		runs: runs,
 		steps: steps,
@@ -60,14 +62,14 @@ function launch_next_child() {
 	child.send(parameters);
 
 	child.on('message', function(message) {
-		console.log(message.parameters.graphs[0].length + " complete");
+		console.log(message.parameters.p[1] + " complete");
 
 		results_as_strings.push(convert_results_to_string(message));
 
 		launch_next_child();
 
 		completed_processes++;
-		if (completed_processes >= num_agent_list.length) {
+		if (completed_processes >= p_list.length) {
 			print_results(results_as_strings);
 		}
 		
@@ -93,7 +95,7 @@ function print_results(results_as_strings) {
 	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
 	info += "\n# Time elapsed: " + time_elapsed + " minutes";
 
-	var stream = fs.createWriteStream(current_time + "-agents-" + priors + ".csv");
+	var stream = fs.createWriteStream(current_time + "-p-" + priors + ".csv");
 
 	stream.once('open', function(fd) {
 		stream.write(info + "\n");
