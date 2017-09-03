@@ -8,7 +8,7 @@ const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
 console.log("Number of cores: " + numCPUs);
 
-const runs = 10;
+const runs = 1000;
 const steps = 1000;
 const priors = "uniform";
 

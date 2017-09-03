@@ -8,9 +8,11 @@ const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
 console.log("Number of cores: " + numCPUs);
 
-const runs = 10;
+const runs = 1000;
 const steps = 1000;
 const priors = "uniform";
+// const priors = "random";
+// const priors = "jeffrey";
 
 var num_agents = 9;
 
@@ -25,13 +27,6 @@ var results_as_strings = [];
 //And then determining that every independent variable has completed 
 var proc_index = 0; 
 var completed_processes = 0;
-
-// var machine_ps = [.5, .55];
-// var machine_list = [];
-// for (var i=0; i<machine_ps.length; i++) {
-// 	machine_list.push(new slot_machines.BernoulliMachine(machine_ps[i]));
-// }
-
 
 var start_time = new Date().getTime();
 

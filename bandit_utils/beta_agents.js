@@ -111,6 +111,7 @@ BetaAgentRandomPriors.prototype.constructor = BetaAgentRandomPriors;
 
 BetaAgentRandomPriors.prototype.reset = function() {
 	this.resetRandomInterval([0,4],[0,4]);
+	// this.resetRandomInterval([0,1],[0,1]);
 }
 
 
