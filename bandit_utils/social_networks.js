@@ -57,9 +57,7 @@ function DummyNetwork(agents, machines, adjacencyMatrix) {
 	Network.call(this, agents, machines, adjacencyMatrix);
 
 	this.hasDummyLearned = function(target_index) {
-		if (this.agents[0].getBestMachine() != target_index)
-			return false;
-		return true;
+		return this.agents[0].getBestMachine().some(x => x==target_index);
 	}
 
 	this.step = function() {
@@ -79,9 +77,9 @@ function DummyNetwork(agents, machines, adjacencyMatrix) {
 DummyNetwork.prototype = Object.create(Network.prototype);
 DummyNetwork.prototype.constructor = DummyNetwork;
 
-function DoubleDummyNetwork(agents, machines, adjMat1, adjMat2) {
-	DummyNetwork.call(this, agents, machines, adjMat1);
-	this.adjMatrices = [adjMat1, adjMat2];
+function DisseminationDummyNetwork(agents, machines, adjacency_matrices) {
+	DummyNetwork.call(this, agents, machines, adjacency_matrices[0]);
+	this.adjMatrices = adjacency_matrices;
 
 	this.step = function() {
 		var acts = this.getActs();
@@ -96,8 +94,8 @@ function DoubleDummyNetwork(agents, machines, adjMat1, adjMat2) {
 	}
 }
 
-DoubleDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
-DoubleDummyNetwork.prototype.constructor = DoubleDummyNetwork;
+DisseminationDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
+DisseminationDummyNetwork.prototype.constructor = DisseminationDummyNetwork;
 
 
 //In all of these graphs the everyone sees the hub agent and the hub agent also pulls levers
@@ -195,7 +193,7 @@ function makeLineGraph(numAgents) {
 
 module.exports.Network = Network;
 module.exports.DummyNetwork = DummyNetwork;
-module.exports.DoubleDummyNetwork = DoubleDummyNetwork;
+module.exports.DisseminationDummyNetwork = DisseminationDummyNetwork;
 
 module.exports.makeTwoCliquesGraph = makeTwoCliquesGraph;
 module.exports.makeStarGraph = makeStarGraph;
