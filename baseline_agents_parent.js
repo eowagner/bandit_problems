@@ -1,14 +1,14 @@
 var child_process = require('child_process');
 var fs = require('fs');
 var slot_machines = require('./bandit_utils/slot_machines.js');
-var beta_agents = require('./bandit_utils/beta_agents.js');
+var beta_agents = require('./bandit_utils/agents.js');
 var social_networks = require('./bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
 console.log("Number of cores: " + numCPUs);
 
-const runs = 1000;
+const runs = 10;
 const steps = 1000;
 const priors = "uniform";
 
@@ -55,7 +55,7 @@ function launch_next_child() {
 
 	proc_index++;
 
-	var child = child_process.fork('./generic_child.js');
+	var child = child_process.fork('./baseline_child.js');
 
 	child.send(parameters);
 
