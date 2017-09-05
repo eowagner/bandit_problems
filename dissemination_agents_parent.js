@@ -40,6 +40,7 @@ var results_as_strings = [];
 var proc_index = 0; 
 var completed_processes = 0;
 
+
 var start_time = new Date().getTime();
 
 for (var i=0; i<numCPUs; i++) {
@@ -64,7 +65,7 @@ function launch_next_child() {
 
 	proc_index++;
 
-	var child = child_process.fork('./baseline_child.js');
+	var child = child_process.fork('./dissemination_child.js');
 
 	child.send(parameters);
 
@@ -87,8 +88,8 @@ function launch_next_child() {
 function convert_results_to_string(res) {
 	var s = res.parameters.graphs[0].length + "," + res.parameters.p[0] + "," + res.parameters.p[1] + ",";
 
-	s += res.success_counts.join(",") + ",";
-	s += res.consensus_counts.join(",");
+	s += res.success_count + ",";
+	s += res.consensus_count;
 
 	return s;
 }
@@ -102,11 +103,11 @@ function print_results(results_as_strings) {
 	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
 	info += "\n# Time elapsed: " + time_elapsed + " minutes";
 
-	var stream = fs.createWriteStream(current_time + "-baseline-agents-" + priors + ".csv");
+	var stream = fs.createWriteStream(current_time + "-diss-agents-" + priors + ".csv");
 
 	stream.once('open', function(fd) {
 		stream.write(info + "\n");
-		stream.write("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star\n");
+		stream.write("num_agents,p0,p1,success,consensus\n");
 		stream.write(results_as_strings.join("\n"));
 
 		stream.end();

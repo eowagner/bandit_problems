@@ -75,8 +75,6 @@ function simulate(parameters) {
 			consensus_count++;
 	}
 
-	console.log(network.machines[0].p + ", " + network.machines[1].p);
-
 	return {
 		parameters: parameters,
 		success_count: success_count,

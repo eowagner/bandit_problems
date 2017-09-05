@@ -1,5 +1,8 @@
 var child_process = require('child_process');
 var fs = require('fs');
+var path = require('path');
+var argv = require('minimist')(process.argv.slice(2));
+
 var slot_machines = require('./bandit_utils/slot_machines.js');
 var beta_agents = require('./bandit_utils/agents.js');
 var social_networks = require('./bandit_utils/social_networks.js');
@@ -8,13 +11,22 @@ const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
 console.log("Number of cores: " + numCPUs);
 
-const runs = 1000;
-const steps = 1000;
-const priors = "uniform";
-// const priors = "random";
-// const priors = "jeffrey";
-
+var runs = 10;
+var steps = 1000;
 var num_agents = 9;
+var priors = "uniform";
+
+if ('p' in argv)
+	priors = argv['p'];
+
+if ('r' in argv)
+	runs = argv['r'];
+
+if ('s' in argv)
+	steps = argv['s'];
+
+if ('n' in argv)
+	num_agents = argv['n'];
 
 var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
@@ -89,7 +101,7 @@ function print_results(results_as_strings) {
 	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
 	info += "\n# Time elapsed: " + time_elapsed + " minutes";
 
-	var stream = fs.createWriteStream(current_time + "-p-" + priors + ".csv");
+	var stream = fs.createWriteStream(current_time + "-diss-p-" + priors + ".csv");
 
 	stream.once('open', function(fd) {
 		stream.write(info + "\n");

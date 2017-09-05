@@ -6,7 +6,7 @@ baseline_p_uniform = pandas.read_csv('baseline/10k-p-uniform.csv', comment="#")
 baseline_p_random = pandas.read_csv('baseline/10k-p-random.csv', comment="#")
 baseline_p_jeffrey = pandas.read_csv('baseline/10k-p-jeffrey.csv', comment="#")
 
-dissemination_p_uniform = pandas.read_csv('dissemination/1k-p-uniform.csv', comment="#")
+dissemination_p_uniform = pandas.read_csv('dissemination/10k-p-uniform.csv', comment="#")
 
 
 axP = baseline_p_uniform.plot(kind="scatter", x="p1", y="success_complete", color="r", label="Complete graph, uniform priors")
