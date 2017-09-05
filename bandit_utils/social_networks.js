@@ -86,7 +86,8 @@ function DisseminationDummyNetwork(agents, machines, adjacency_matrices) {
 		var payouts = this.getPayouts(acts);
 
 		for (var i=0; i<acts.length; i++) {
-			for (var j=0; j<acts.length; j++) {
+			// The dummy agent (index=0) does not actually act
+			for (var j=1; j<acts.length; j++) {
 				if (this.adjMatrices[acts[j]][i][j]==1)
 					this.agents[i].update(acts[j], payouts[j]);
 			}
@@ -96,6 +97,34 @@ function DisseminationDummyNetwork(agents, machines, adjacency_matrices) {
 
 DisseminationDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
 DisseminationDummyNetwork.prototype.constructor = DisseminationDummyNetwork;
+
+// Will break if num_restricted is inconsistent with network size
+function ConductDummyNetwork(agents, machines, adjacency_matrix, num_restricted) {
+	DummyNetwork.call(this, agents, machines, adjacency_matrix);
+	this.num_restricted = num_restricted;
+
+	this.step = function() {
+		var acts = this.getActs();
+
+		// Agents indexed 1 through num_restricted are all forced to use act 0
+		for (var i=1; i<=num_restricted; i++) {
+			acts[i] = 0;
+		}
+
+		var payouts = this.getPayouts(acts);
+	
+		for (var i=0; i<acts.length; i++) {
+			// The dummy agent (index=0) does not actually act
+			for (var j=1; j<acts.length; j++) {
+				if (this.adjacencyMatrix[i][j] == 1)
+					this.agents[i].update(acts[j],payouts[j]);
+			}
+		}
+	}
+}
+
+ConductDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
+ConductDummyNetwork.prototype.constructor = ConductDummyNetwork;
 
 
 //In all of these graphs the everyone sees the hub agent and the hub agent also pulls levers
@@ -194,6 +223,7 @@ function makeLineGraph(numAgents) {
 module.exports.Network = Network;
 module.exports.DummyNetwork = DummyNetwork;
 module.exports.DisseminationDummyNetwork = DisseminationDummyNetwork;
+module.exports.ConductDummyNetwork = ConductDummyNetwork;
 
 module.exports.makeTwoCliquesGraph = makeTwoCliquesGraph;
 module.exports.makeStarGraph = makeStarGraph;
