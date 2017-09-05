@@ -1,0 +1,24 @@
+{
+  "name": "node_bandits",
+  "version": "1.0.0",
+  "description": "An implementation of bandit problems in social networks.",
+  "main": "baseline_agents_parent.js",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eowagner/node_bandits.git"
+  },
+  "author": "Elliott Wagner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eowagner/node_bandits/issues"
+  },
+  "homepage": "https://github.com/eowagner/node_bandits#readme",
+  "private": true
+}
