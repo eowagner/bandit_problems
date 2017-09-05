@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUNS=2
+RUNS=1000
 echo "Baseline p"
 nodejs baseline_p_parent.js -p uniform -r $RUNS -s 1000 -n 9
 echo "Baseline agents, q=.55"

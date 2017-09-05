@@ -37,11 +37,13 @@ function simulate(parameters) {
 
 	var network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, parameters.graph);
 
-	var success_counts = new Array(agent_list.length-1).fill(0);
-	var consensus_counts = new Array(agent_list.length-1).fill(0);
+	var success_counts = [];
+	var consensus_counts = [];
 
 	// Figure this out for all possible number of restricted agents
 	for (var num_restricted=1; num_restricted<agent_list.length-1; num_restricted++) {
+		success_counts.push(0);
+		consensus_counts.push(0);
 
 		for (var r=0; r<parameters.runs; r++) {
 			// Flip coin to determine order of machines and thus which machine is censored
@@ -67,10 +69,10 @@ function simulate(parameters) {
 			}
 
 			if (network.hasDummyLearned(target))
-				success_counts[num_restricted]++;
+				success_counts[num_restricted-1]++;
 
 			if (network.hasReachedConsensus())
-				consensus_counts[num_restricted]++;
+				consensus_counts[num_restricted-1]++;
 		}
 	}
 

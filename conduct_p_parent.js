@@ -99,7 +99,8 @@ function print_results(results_as_strings) {
 	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
 	info += "\n# Time elapsed: " + time_elapsed + " minutes";
 
-	var stream = fs.createWriteStream(current_time + "-conduct-p-" + priors + ".csv");
+	fs.existsSync("out") || fs.mkdirSync("out");
+	var stream = fs.createWriteStream("out/" + current_time + "-conduct-p-" + priors + ".csv");
 
 	var succ_heads = "";
 	var con_heads = "";
