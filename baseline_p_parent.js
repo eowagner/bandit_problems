@@ -8,7 +8,7 @@ var social_networks = require('./bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
-console.log("Number of cores: " + numCPUs);
+console.log("# Number of cores: " + numCPUs);
 
 var runs = 10;
 var steps = 1000;
@@ -32,7 +32,9 @@ for (var q=.505; q<=.805; q+=.005) {
 	p_list.push(q);
 }
 
-var results_as_strings = [];
+//Print preamble
+console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
+console.log("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star");
 
 //Global required for traversing the independent variable over multiple child processes
 //And then determining that every independent variable has completed 
@@ -68,15 +70,14 @@ function launch_next_child() {
 	child.send(parameters);
 
 	child.on('message', function(message) {
-		console.log(message.parameters.p[1] + " complete");
-
-		results_as_strings.push(convert_results_to_string(message));
+		console.log(convert_results_to_string(message));
 
 		launch_next_child();
 
 		completed_processes++;
 		if (completed_processes >= p_list.length) {
-			print_results(results_as_strings);
+			var end_time = new Date().getTime();
+			console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
 		}
 		
 	});
@@ -90,26 +91,4 @@ function convert_results_to_string(res) {
 	s += res.consensus_counts.join(",");
 
 	return s;
-}
-
-function print_results(results_as_strings) {
-	var current_time = new Date().getTime();
-	var time_elapsed = (current_time-start_time)/1000/60;
-
-	console.log(time_elapsed + " minues elapsed");
-
-	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
-	info += "\n# Time elapsed: " + time_elapsed + " minutes";
-
-	fs.existsSync("out") || fs.mkdirSync("out");
-
-	var stream = fs.createWriteStream('out/' + current_time + "-baseline-p-" + priors + ".csv");
-
-	stream.once('open', function(fd) {
-		stream.write(info + "\n");
-		stream.write("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star\n");
-		stream.write(results_as_strings.join("\n"));
-
-		stream.end();
-	});
 }
