@@ -1,6 +1,4 @@
 var child_process = require('child_process');
-var fs = require('fs');
-var path = require('path');
 var argv = require('minimist')(process.argv.slice(2));
 
 var slot_machines = require('./bandit_utils/slot_machines.js');
@@ -32,6 +30,9 @@ var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
 	p_list.push(q);
 }
+
+console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
+console.log("num_agents,p0,p1,success,consensus");
 
 var results_as_strings = [];
 
@@ -68,15 +69,14 @@ function launch_next_child() {
 	child.send(parameters);
 
 	child.on('message', function(message) {
-		console.log(message.parameters.p[1] + " complete");
-
-		results_as_strings.push(convert_results_to_string(message));
+		console.log(convert_results_to_string(message));
 
 		launch_next_child();
 
 		completed_processes++;
 		if (completed_processes >= p_list.length) {
-			print_results(results_as_strings);
+			var end_time = new Date().getTime();
+			console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
 		}
 		
 	});

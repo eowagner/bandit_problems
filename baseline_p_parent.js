@@ -1,8 +1,7 @@
 var child_process = require('child_process');
-var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
 
-var slot_machines = require('./bandit_utils/slot_machines.js');
+var slot_machines = require('../bandit_utils/slot_machines.js');
 var beta_agents = require('./bandit_utils/agents.js');
 var social_networks = require('./bandit_utils/social_networks.js');
 

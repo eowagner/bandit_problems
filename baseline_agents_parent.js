@@ -1,5 +1,4 @@
 var child_process = require('child_process');
-var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
 
 var slot_machines = require('./bandit_utils/slot_machines.js');
@@ -26,6 +25,9 @@ if ('s' in argv)
 
 if ('q' in argv)
 	q = argv['q'];
+
+console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
+console.log("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star");
 
 
 var num_agent_list = [];
@@ -69,15 +71,14 @@ function launch_next_child() {
 	child.send(parameters);
 
 	child.on('message', function(message) {
-		console.log(message.parameters.graphs[0].length + " complete");
-
-		results_as_strings.push(convert_results_to_string(message));
+		console.log(convert_results_to_string(message));
 
 		launch_next_child();
 
 		completed_processes++;
 		if (completed_processes >= num_agent_list.length) {
-			print_results(results_as_strings);
+			var end_time = new Date().getTime();
+			console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
 		}
 		
 	});
@@ -91,26 +92,4 @@ function convert_results_to_string(res) {
 	s += res.consensus_counts.join(",");
 
 	return s;
-}
-
-function print_results(results_as_strings) {
-	var current_time = new Date().getTime();
-	var time_elapsed = (current_time-start_time)/1000/60;
-
-	console.log(time_elapsed + " minues elapsed");
-
-	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
-	info += "\n# Time elapsed: " + time_elapsed + " minutes";
-
-	fs.existsSync("out") || fs.mkdirSync("out");
-
-	var stream = fs.createWriteStream('out/' + current_time + "-baseline-agents-" + priors + ".csv");
-
-	stream.once('open', function(fd) {
-		stream.write(info + "\n");
-		stream.write("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star\n");
-		stream.write(results_as_strings.join("\n"));
-
-		stream.end();
-	});
 }

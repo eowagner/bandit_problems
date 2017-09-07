@@ -1,5 +1,4 @@
 var child_process = require('child_process');
-var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
 
 var slot_machines = require('./bandit_utils/slot_machines.js');
@@ -26,6 +25,17 @@ if ('s' in argv)
 
 if ('n' in argv)
 	num_agents = argv['n'];
+
+console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
+
+var succ_heads = "";
+var con_heads = "";
+for (var i=1; i<num_agents-1; i++) {
+	succ_heads += "," + i + "_res_success";
+	con_heads += "," + i +"_res_consensus";
+}
+
+console.log("num_agents,p0,p1" + succ_heads + con_heads);
 
 var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
@@ -66,15 +76,14 @@ function launch_next_child() {
 	child.send(parameters);
 
 	child.on('message', function(message) {
-		console.log(message.parameters.p[1] + " complete");
-
-		results_as_strings.push(convert_results_to_string(message));
+		console.log(convert_results_to_string(message));
 
 		launch_next_child();
 
 		completed_processes++;
 		if (completed_processes >= p_list.length) {
-			print_results(results_as_strings);
+			var end_time = new Date().getTime();
+			console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
 		}
 		
 	});
@@ -88,32 +97,4 @@ function convert_results_to_string(res) {
 	s += res.consensus_counts.join(",");
 
 	return s;
-}
-
-function print_results(results_as_strings) {
-	var current_time = new Date().getTime();
-	var time_elapsed = (current_time-start_time)/1000/60;
-
-	console.log(time_elapsed + " minues elapsed");
-
-	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
-	info += "\n# Time elapsed: " + time_elapsed + " minutes";
-
-	fs.existsSync("out") || fs.mkdirSync("out");
-	var stream = fs.createWriteStream("out/" + current_time + "-conduct-p-" + priors + ".csv");
-
-	var succ_heads = "";
-	var con_heads = "";
-	for (var i=1; i<num_agents-1; i++) {
-		succ_heads += "," + i + "_res_success";
-		con_heads += "," + i +"_res_consensus";
-	}
-
-	stream.once('open', function(fd) {
-		stream.write(info + "\n");
-		stream.write("num_agents,p0,p1" + succ_heads + con_heads +"\n");
-		stream.write(results_as_strings.join("\n"));
-
-		stream.end();
-	});
 }
