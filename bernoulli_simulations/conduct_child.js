@@ -1,6 +1,6 @@
-var slot_machines = require('./bandit_utils/slot_machines.js');
-var beta_agents = require('./bandit_utils/agents.js');
-var social_networks = require('./bandit_utils/social_networks.js');
+var slot_machines = require('../bandit_utils/slot_machines.js');
+var beta_agents = require('../bandit_utils/agents.js');
+var social_networks = require('../bandit_utils/social_networks.js');
 
 function simulate(parameters) {
 	var machine_list = [];

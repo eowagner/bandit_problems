@@ -1,9 +1,9 @@
 var child_process = require('child_process');
 var argv = require('minimist')(process.argv.slice(2));
 
-var slot_machines = require('./bandit_utils/slot_machines.js');
-var beta_agents = require('./bandit_utils/agents.js');
-var social_networks = require('./bandit_utils/social_networks.js');
+var slot_machines = require('../bandit_utils/slot_machines.js');
+var beta_agents = require('../bandit_utils/agents.js');
+var social_networks = require('../bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
@@ -64,7 +64,7 @@ function launch_next_child() {
 
 	proc_index++;
 
-	var child = child_process.fork('./dissemination_child.js');
+	var child = child_process.fork('./bernoulli_simulations/dissemination_child.js');
 
 	child.send(parameters);
 
