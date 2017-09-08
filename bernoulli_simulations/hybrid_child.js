@@ -14,11 +14,10 @@ function simulate(parameters) {
 	}
 
 	var agent_list = [];
-	for (var i=0; i<parameters.graph[0].length; i++) {
+	for (var i=0; i<parameters.graphs[0].length; i++) {
 		switch (parameters.priors) {
 			case "uniform":
 			case "u":
-				// agent_list.push(new beta_agents.BetaAgent(machine_list.length));
 				agent_list.push(new beta_agents.BetaAgentUniformPriors(machine_list.length));
 				break;
 			case "jeffrey":
@@ -46,14 +45,14 @@ function simulate(parameters) {
 		for (var r=0; r<parameters.runs; r++) {
 			// Flip coin to determine order of machines and thus which machine is censored
 			var target = 1;
-			var network = new social_networks.ConductDummyNetwork(agent_list, machine_list, parameters.graph, num_restricted);
+			var network = new social_networks.HybridDummyNetwork(agent_list, machine_list, parameters.graphs, num_restricted);
 
 			if (parameters.p[0] > parameters.p[1]) {
 				target = 0;
 			}
 
 			if (Math.random() < .5) {
-				network = new social_networks.ConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph, num_restricted);
+				network = new social_networks.HybridDummyNetwork(agent_list, machine_list_flipped, parameters.graphs, num_restricted);
 				target = (target==1) ? 0 : 1;
 			}
 

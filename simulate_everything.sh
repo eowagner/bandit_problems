@@ -12,3 +12,4 @@ nodejs bernoulli_simulations/dissemination_p_parent.js -p uniform -r $RUNS -s 10
 nodejs bernoulli_simulations/dissemination_agents_parent.js -p uniform -r $RUNS -s 1000 -q .55 | tee "$DNAME/diss-agents-55.csv"
 nodejs bernoulli_simulations/dissemination_agents_parent.js -p uniform -r $RUNS -s 1000 -q .6 | tee "$DNAME/diss-agents-6.csv"
 nodejs bernoulli_simulations/conduct_p_parent.js -p uniform -r $RUNS -s 1000 -n 9| tee "$DNAME/conduct.csv"
+nodejs bernoulli_simulations/hybrid_p_parent.js -p uniform -r $RUNS -s 1000 -n 9| tee "$DNAME/hybrid.csv"
