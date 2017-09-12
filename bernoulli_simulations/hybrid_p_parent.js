@@ -7,7 +7,7 @@ var social_networks = require('../bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
-console.log("Number of cores: " + numCPUs);
+console.log("# Number of cores: " + numCPUs);
 
 var runs = 10;
 var steps = 1000;
@@ -67,7 +67,7 @@ function launch_next_child() {
 		p: [.5, p_list[proc_index]],
 		runs: runs,
 		steps: steps,
-		graphs: [complete_graph, star_graph]
+		graphs: [star_graph, complete_graph]
 	};
 
 	proc_index++;

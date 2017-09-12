@@ -7,7 +7,7 @@ var social_networks = require('../bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
-console.log("Number of cores: " + numCPUs);
+console.log("# Number of cores: " + numCPUs);
 
 var runs = 10;
 var steps = 1000;
@@ -60,6 +60,9 @@ function launch_next_child() {
 		runs: runs,
 		steps: steps,
 		graphs: [complete_graph, star_graph]
+		// graphs: [star_graph, complete_graph]
+		// graphs: [star_graph, star_graph]
+		// graphs: [complete_graph, complete_graph]
 	};
 
 	proc_index++;
@@ -90,25 +93,4 @@ function convert_results_to_string(res) {
 	s += res.consensus_count;
 
 	return s;
-}
-
-function print_results(results_as_strings) {
-	var current_time = new Date().getTime();
-	var time_elapsed = (current_time-start_time)/1000/60;
-
-	console.log(time_elapsed + " minues elapsed");
-
-	var info =  "# Priors: " + priors + "; runs: " + runs + "; steps: " + steps;
-	info += "\n# Time elapsed: " + time_elapsed + " minutes";
-
-	fs.existsSync("out") || fs.mkdirSync("out");
-	var stream = fs.createWriteStream('out/' + current_time + "-diss-p-" + priors + ".csv");
-
-	stream.once('open', function(fd) {
-		stream.write(info + "\n");
-		stream.write("num_agents,p0,p1,success,consensus\n");
-		stream.write(results_as_strings.join("\n"));
-
-		stream.end();
-	});
 }

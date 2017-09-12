@@ -45,19 +45,19 @@ function simulate(parameters) {
 	for (var r=0; r<parameters.runs; r++) {
 		// Flip coin to determine order of machines and thus which machine is censored
 		var target = 1;
-		var network;
 
 		if (parameters.p[0] > parameters.p[1]) {
 			target = 0;
 		}
 
-		if (Math.random() < .5) {
-			network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, parameters.graphs);
-		}
-		else {
-			network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list_flipped, parameters.graphs);
-			target = (target==1) ? 0 : 1;
-		}
+		var network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, parameters.graphs);
+		// var mlf = [new slot_machines.BernoulliMachine(parameters.p[1]), new slot_machines.BernoulliMachine(parameters.p[0])];
+		// if (Math.random() < .5) {
+			// network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list_flipped, parameters.graphs);
+			// target = (target==1) ? 0 : 1;
+			// network = new social_networks.DisseminationDummyNetwork(agent_list, mlf, parameters.graphs);
+			// target = 0;
+		// }
 
 
 		agent_list.forEach(function (a) {

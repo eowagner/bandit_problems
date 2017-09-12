@@ -7,7 +7,7 @@ var social_networks = require('../bandit_utils/social_networks.js');
 
 const numCPUs = require('os').cpus().length;
 // const numCPUs = 1;
-console.log("Number of cores: " + numCPUs);
+console.log("# Number of cores: " + numCPUs);
 
 var runs = 10;
 var steps = 1000;

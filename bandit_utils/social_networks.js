@@ -146,7 +146,7 @@ function HybridDummyNetwork(agents, machines, adjacency_matrices, num_restricted
 		for (var i=0; i<acts.length; i++) {
 			// The dummy agent (index=0) does not actually act
 			for (var j=1; j<acts.length; j++) {
-				if (this.adjMatrices[acts[j]][i][j]==1)
+				if (this.adjMatrices[acts[j]][i][j]==1) 
 					this.agents[i].update(acts[j], payouts[j]);
 			}
 		}
