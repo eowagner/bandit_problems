@@ -11,8 +11,9 @@ console.log("# Number of cores: " + numCPUs);
 
 var runs = 10;
 var steps = 1000;
+var num_agents = 9;
 var priors = "uniform";
-var q = .55;
+var which_arm_restricted = "randomize"; //low, or high
 
 if ('p' in argv)
 	priors = argv['p'];
@@ -23,16 +24,20 @@ if ('r' in argv)
 if ('s' in argv)
 	steps = argv['s'];
 
-if ('q' in argv)
-	q = argv['q'];
+if ('n' in argv)
+	num_agents = argv['n'];
+
+if ('c' in argv)
+	which_arm_restricted = argv['c'];
+
+var p_list = [];
+for (var q=.505; q<=.805; q+=.005) {
+	p_list.push(q);
+}
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
+console.log("# Which arm is restricted: " + which_arm_restricted);
 console.log("num_agents,p0,p1,success,consensus");
-
-var num_agent_list = [];
-for (var i=3; i<41; i++) {
-	num_agent_list.push(i);
-}
 
 var results_as_strings = [];
 
@@ -41,7 +46,6 @@ var results_as_strings = [];
 var proc_index = 0; 
 var completed_processes = 0;
 
-
 var start_time = new Date().getTime();
 
 for (var i=0; i<numCPUs; i++) {
@@ -49,24 +53,32 @@ for (var i=0; i<numCPUs; i++) {
 }
 
 function launch_next_child() {
-	if (proc_index >= num_agent_list.length)
+	if (proc_index >= p_list.length)
 		return;	
 
-	var complete_graph = social_networks.makeCompleteGraph(num_agent_list[proc_index]);
-	var star_graph = social_networks.makeStarGraph(num_agent_list[proc_index]);
+	var complete_graph = social_networks.makeCompleteGraph(num_agents);
+	var star_graph = social_networks.makeStarGraph(num_agents);
+
+	var graph_list = [complete_graph, star_graph];
+	var randomize = (which_arm_restricted=="randomize") ? true : false;
+	if (which_arm_restricted=="low")
+		graph_list = [star_graph, complete_graph];
 
 	var parameters = {
 		priors: priors,
-		p: [.5, q],
-		target: 1,
+		p: [.5, p_list[proc_index]],
 		runs: runs,
 		steps: steps,
-		graphs: [complete_graph, star_graph]
+		randomize: randomize,
+		graphs: graph_list
+		// graphs: [star_graph, complete_graph]
+		// graphs: [star_graph, star_graph]
+		// graphs: [complete_graph, complete_graph]
 	};
 
 	proc_index++;
 
-	var child = child_process.fork('./bernoulli_simulations/dissemination_child.js');
+	var child = child_process.fork('./bernoulli_simulations/diss_child.js');
 
 	child.send(parameters);
 
@@ -76,7 +88,7 @@ function launch_next_child() {
 		launch_next_child();
 
 		completed_processes++;
-		if (completed_processes >= num_agent_list.length) {
+		if (completed_processes >= p_list.length) {
 			var end_time = new Date().getTime();
 			console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
 		}

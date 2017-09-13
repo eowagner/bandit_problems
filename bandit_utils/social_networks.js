@@ -57,7 +57,10 @@ function DummyNetwork(agents, machines, adjacencyMatrix) {
 	Network.call(this, agents, machines, adjacencyMatrix);
 
 	this.hasDummyLearned = function(target_index) {
-		return this.agents[0].getBestMachine().some(x => x==target_index);
+		// return this.agents[0].getBestMachine().some(x => x==target_index);
+		return this.agents[0].getBestMachine().some( function(x) {
+			return x==target_index;
+		});
 	}
 
 	this.step = function() {

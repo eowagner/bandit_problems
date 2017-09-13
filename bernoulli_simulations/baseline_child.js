@@ -35,11 +35,15 @@ function simulate(parameters) {
 		networks[i] = new social_networks.DummyNetwork(agent_list, machine_list, parameters.graphs[i]);
 	}
 
-	var success_counts = new Array(networks.length).fill(0);
-
-	var consensus_counts = new Array(networks.length).fill(0);
+	// My office computer has an outdated version of node lacking fill
+	// var success_counts = new Array(networks.length).fill(0);
+	// var consensus_counts = new Array(networks.length).fill(0);
+	var success_counts = [];
+	var consensus_counts = [];
 
 	for (var net_index=0; net_index<networks.length; net_index++) {
+		success_counts.push(0);
+		consensus_counts.push(0);
 
 		for (var r=0; r<parameters.runs; r++) {
 			agent_list.forEach(function (a) {
