@@ -60,6 +60,8 @@ function launch_next_child() {
 	var star_graph = social_networks.makeStarGraph(num_agents);
 
 	var graph_list = [complete_graph, star_graph];
+	// var graph_list = [star_graph, complete_graph];
+
 	var randomize = (which_arm_restricted=="randomize") ? true : false;
 	if (which_arm_restricted=="low")
 		graph_list = [star_graph, complete_graph];

@@ -46,7 +46,7 @@ function simulate(parameters) {
 		var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
 		var network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, parameters.graphs);
 
-		if (parameters.randomize = true) {
+		if (parameters.randomize == true) {
 		// Flip coin to determine order of machines and thus which machine is censored
 			if (Math.random() < .5) {
 				network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list_flipped, parameters.graphs);
