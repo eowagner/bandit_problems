@@ -45,18 +45,16 @@ function simulate(parameters) {
 
 		for (var r=0; r<parameters.runs; r++) {
 			// Flip coin to determine order of machines and thus which machine is censored
-			var target = 1;
+			var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
 			var network = new social_networks.ConductDummyNetwork(agent_list, machine_list, parameters.graph, num_restricted);
 
-			if (parameters.p[0] > parameters.p[1]) {
-				target = 0;
+			if (parameters.randomize == true) {
+				// Flip coin to determine order of machines and thus which machine is censored
+				if (Math.random() < .5) {
+					network = new social_networks.ConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph, num_restricted);
+					target = (target==1) ? 0 : 1;
+				}
 			}
-
-			if (Math.random() < .5) {
-				network = new social_networks.ConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph, num_restricted);
-				target = (target==1) ? 0 : 1;
-			}
-
 
 			agent_list.forEach(function (a) {
 				a.reset();
