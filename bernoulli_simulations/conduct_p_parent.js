@@ -65,7 +65,7 @@ function launch_next_child() {
 
 	var complete_graph = social_networks.makeCompleteGraph(num_agents);
 
-	ps = [.5, p_list[proc_index]]
+	var ps = [.5, p_list[proc_index]];
 	var randomize = (which_arm_restricted=="randomize") ? true : false;
 	if (which_arm_restricted=="low")
 		ps = [p_list[proc_index], .5];

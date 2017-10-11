@@ -13,6 +13,7 @@ var runs = 10;
 var steps = 1000;
 var num_agents = 9;
 var priors = "uniform";
+var which_arm_restricted = "randomize"; //low, or high
 
 if ('p' in argv)
 	priors = argv['p'];
@@ -25,6 +26,9 @@ if ('s' in argv)
 
 if ('n' in argv)
 	num_agents = argv['n'];
+
+if ('c' in argv)
+	which_arm_restricted = argv['c'];
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 
@@ -62,12 +66,17 @@ function launch_next_child() {
 	var complete_graph = social_networks.makeCompleteGraph(num_agents);
 	var star_graph = social_networks.makeStarGraph(num_agents);
 
+	var ps = [.5, p_list[proc_index]];
+	var randomize = (which_arm_restricted=="randomize") ? true : false;
+	if (which_arm_restricted=="low")
+		ps = [p_list[proc_index], .5];
+
 	var parameters = {
 		priors: priors,
-		p: [.5, p_list[proc_index]],
+		p: ps,
 		runs: runs,
 		steps: steps,
-		graphs: [star_graph, complete_graph]
+		graphs: [complete_graph, star_graph]
 	};
 
 	proc_index++;
