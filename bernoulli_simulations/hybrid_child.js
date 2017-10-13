@@ -49,7 +49,7 @@ function simulate(parameters) {
 			if (parameters.randomize == true) {
 				// Flip coin to determine order of machines and thus which machine is censored
 				if (Math.random() < .5) {
-					network = new social_networks.HybridDummyNetwork(agent_list, machine_list_flipped, parameters.graph, num_restricted);
+					network = new social_networks.HybridDummyNetwork(agent_list, machine_list_flipped, parameters.graphs, num_restricted);
 					target = (target==1) ? 0 : 1;
 				}
 			}

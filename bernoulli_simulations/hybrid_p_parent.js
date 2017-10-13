@@ -76,6 +76,7 @@ function launch_next_child() {
 		p: ps,
 		runs: runs,
 		steps: steps,
+		randomize: randomize,
 		graphs: [complete_graph, star_graph]
 	};
 
