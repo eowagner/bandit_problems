@@ -75,6 +75,10 @@ function DummyNetwork(agents, machines, adjacencyMatrix) {
 			}
 		}
 	}
+
+	this.getDummyChoice = function() {
+		return this.agents[0].getBestMachine()[0];
+	}
 }
 
 DummyNetwork.prototype = Object.create(Network.prototype);

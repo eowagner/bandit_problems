@@ -51,6 +51,7 @@ function simulate(parameters) {
 			});
 
 			for (var t=0; t<parameters.steps; t++) {
+				console.log(networks[net_index].getDummyChoice());
 				networks[net_index].step();
 			}
 
