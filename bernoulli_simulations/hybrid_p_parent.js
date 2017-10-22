@@ -34,9 +34,11 @@ console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 
 var succ_heads = "";
 var con_heads = "";
+var time_heads = "";
 for (var i=1; i<num_agents-1; i++) {
 	succ_heads += "," + i + "_res_success";
 	con_heads += "," + i +"_res_consensus";
+	time_heads += "," + i + "_res_time";
 }
 
 console.log("num_agents,p0,p1" + succ_heads + con_heads);
@@ -105,7 +107,8 @@ function convert_results_to_string(res) {
 	var s = res.parameters.graphs[0].length + "," + res.parameters.p[0] + "," + res.parameters.p[1] + ",";
 
 	s += res.success_counts.join(",") + ",";
-	s += res.consensus_counts.join(",");
+	s += res.consensus_counts.join(",") + ",";
+	s += res.total_times_to_lock.join(",");
 
 	return s;
 }
