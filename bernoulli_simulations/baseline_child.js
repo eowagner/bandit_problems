@@ -54,15 +54,16 @@ function simulate(parameters) {
 
 			var dummy_choices = [];
 			for (var t=0; t<parameters.steps; t++) {
-
-				dummy_choices.unshift(networks[net_index].getDummyChoice());
-
 				networks[net_index].step();
+				dummy_choices.unshift(networks[net_index].getDummyChoice());
 			}
 
 			var last_choice = dummy_choices.shift();
 			var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
-			time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
+			if (time_to_lock == -1)
+				time_to_lock = 0;
+			else
+				time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
 			total_times_to_lock[net_index] += time_to_lock;
 
 			if (networks[net_index].hasDummyLearned(parameters.target))

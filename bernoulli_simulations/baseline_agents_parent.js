@@ -27,7 +27,7 @@ if ('q' in argv)
 	q = argv['q'];
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
-console.log("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star");
+console.log("num_agents,p0,p1,success_complete,success_star,consensus_complete,consensus_star,time_complete,time_star");
 
 
 var num_agent_list = [];
@@ -89,7 +89,8 @@ function convert_results_to_string(res) {
 	var s = res.parameters.graphs[0].length + "," + res.parameters.p[0] + "," + res.parameters.p[1] + ",";
 
 	s += res.success_counts.join(",") + ",";
-	s += res.consensus_counts.join(",");
+	s += res.consensus_counts.join(",") +",";
+	s += res.total_times_to_lock.join(",");
 
 	return s;
 }

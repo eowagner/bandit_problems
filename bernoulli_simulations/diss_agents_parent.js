@@ -31,7 +31,7 @@ if ('c' in argv)
 	which_arm_restricted = argv['c'];
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
-console.log("num_agents,p0,p1,success,consensus");
+console.log("num_agents,p0,p1,success,consensus,time");
 
 var num_agent_list = [];
 for (var i=3; i<41; i++) {
@@ -99,7 +99,8 @@ function convert_results_to_string(res) {
 	var s = res.parameters.graphs[0].length + "," + res.parameters.p[0] + "," + res.parameters.p[1] + ",";
 
 	s += res.success_count + ",";
-	s += res.consensus_count;
+	s += res.consensus_count + ",";
+	s += res.total_time_to_lock;
 
 	return s;
 }

@@ -41,6 +41,7 @@ function simulate(parameters) {
 
 	var success_count = 0;
 	var consensus_count = 0;
+	var total_time_to_lock = 0;
 
 	for (var r=0; r<parameters.runs; r++) {
 		var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
@@ -58,8 +59,10 @@ function simulate(parameters) {
 			a.reset();
 		});
 
+		var dummy_choices = [];
 		for (var t=0; t<parameters.steps; t++) {
 			network.step();
+			dummy_choices.unshift(network.getDummyChoice());
 		}
 
 		if (network.hasDummyLearned(target))
@@ -67,12 +70,21 @@ function simulate(parameters) {
 
 		if (network.hasReachedConsensus())
 			consensus_count++;
+
+		var last_choice = dummy_choices.shift();
+		var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
+		if (time_to_lock == -1)
+			time_to_lock = 0;
+		else
+			time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
+		total_time_to_lock += time_to_lock;
 	}
 
 	return {
 		parameters: parameters,
 		success_count: success_count,
-		consensus_count: consensus_count
+		consensus_count: consensus_count,
+		total_time_to_lock: total_time_to_lock
 	};
 }
 

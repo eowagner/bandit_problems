@@ -77,7 +77,9 @@ function DummyNetwork(agents, machines, adjacencyMatrix) {
 	}
 
 	this.getDummyChoice = function() {
-		return this.agents[0].getBestMachine()[0];
+		// return this.agents[0].getBestMachine()[0];
+		var x = this.agents[0].getMachineToPlay();
+		return Number(this.agents[0].getMachineToPlay());
 	}
 }
 
