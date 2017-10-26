@@ -42,6 +42,8 @@ function simulate(parameters) {
 	var success_count = 0;
 	var consensus_count = 0;
 	var total_time_to_lock = 0;
+	var total_time_to_successful_lock = 0;
+	var total_time_to_incorrect_lock = 0;
 
 	for (var r=0; r<parameters.runs; r++) {
 		var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
@@ -78,13 +80,20 @@ function simulate(parameters) {
 		else
 			time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
 		total_time_to_lock += time_to_lock;
+
+		if (last_choice==target)
+			total_time_to_successful_lock += time_to_lock;
+		else
+			total_time_to_incorrect_lock += time_to_lock;
 	}
 
 	return {
 		parameters: parameters,
 		success_count: success_count,
 		consensus_count: consensus_count,
-		total_time_to_lock: total_time_to_lock
+		total_time_to_lock: total_time_to_lock,
+		total_time_to_successful_lock: total_time_to_successful_lock,
+		total_time_to_incorrect_lock: total_time_to_incorrect_lock
 	};
 }
 

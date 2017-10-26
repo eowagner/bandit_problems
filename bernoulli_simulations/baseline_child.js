@@ -41,11 +41,15 @@ function simulate(parameters) {
 	var success_counts = [];
 	var consensus_counts = [];
 	var total_times_to_lock = [];
+	var total_times_to_successful_lock = [];
+	var total_times_to_incorrect_lock = [];
 
 	for (var net_index=0; net_index<networks.length; net_index++) {
 		success_counts.push(0);
 		consensus_counts.push(0);
 		total_times_to_lock.push(0);
+		total_times_to_successful_lock.push(0);
+		total_times_to_incorrect_lock.push(0);
 
 		for (var r=0; r<parameters.runs; r++) {
 			agent_list.forEach(function (a) {
@@ -66,6 +70,11 @@ function simulate(parameters) {
 				time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
 			total_times_to_lock[net_index] += time_to_lock;
 
+			if (last_choice==parameters.target)
+				total_times_to_successful_lock[net_index] += time_to_lock;
+			else
+				total_times_to_incorrect_lock[net_index] += time_to_lock;
+
 			if (networks[net_index].hasDummyLearned(parameters.target))
 				success_counts[net_index]++;
 
@@ -78,7 +87,9 @@ function simulate(parameters) {
 		parameters: parameters,
 		success_counts: success_counts,
 		consensus_counts: consensus_counts,
-		total_times_to_lock: total_times_to_lock 
+		total_times_to_lock: total_times_to_lock ,
+		total_times_to_successful_lock: total_times_to_successful_lock,
+		total_times_to_incorrect_lock: total_times_to_incorrect_lock
 	};
 }
 
