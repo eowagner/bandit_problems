@@ -79,11 +79,14 @@ function simulate(parameters) {
 				consensus_counts[num_restricted-1]++;
 
 			var last_choice = dummy_choices.shift();
-			var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
+			// var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
+			var flipped = (last_choice==0) ? 1 : 0;
+			var time_to_lock = dummy_choices.indexOf(flipped);
+			
 			if (time_to_lock == -1)
 				time_to_lock = 0;
 			else
-				time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
+				time_to_lock = parameters.steps - time_to_lock; //The last choice was removed with the shift
 			total_times_to_lock[num_restricted-1] += time_to_lock;
 
 			if (last_choice==target)
