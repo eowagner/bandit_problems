@@ -37,7 +37,7 @@ for (var q=.505; q<=.805; q+=.005) {
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 console.log("# Which arm is restricted: " + which_arm_restricted);
-console.log("num_agents,p0,p1,success,consensus,time");
+console.log("num_agents,p0,p1,success,consensus,time,success_time,incorrect_time");
 
 var results_as_strings = [];
 
@@ -104,7 +104,7 @@ function convert_results_to_string(res) {
 
 	s += res.success_count + ",";
 	s += res.consensus_count + ",";
-	s += res.total_time_to_lock;
+	s += res.total_time_to_lock + "," + res.total_time_to_successful_lock + "," + res.total_time_to_incorrect_lock;
 
 	return s;
 }

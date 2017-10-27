@@ -37,12 +37,16 @@ function simulate(parameters) {
 	var success_counts = [];
 	var consensus_counts = [];
 	var total_times_to_lock = [];
+	var total_times_to_successful_lock = [];
+	var total_times_to_incorrect_lock = [];
 
 	// Figure this out for all possible number of restricted agents
 	for (var num_restricted=1; num_restricted<agent_list.length-1; num_restricted++) {
 		success_counts.push(0);
 		consensus_counts.push(0);
 		total_times_to_lock.push(0);
+		total_times_to_successful_lock.push(0);
+		total_times_to_incorrect_lock.push(0);
 
 		for (var r=0; r<parameters.runs; r++) {
 			var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
@@ -73,12 +77,20 @@ function simulate(parameters) {
 				consensus_counts[num_restricted-1]++;
 
 			var last_choice = dummy_choices.shift();
-			var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
+			// var time_to_lock = dummy_choices.findIndex((x) => {return x!=last_choice} );
+			var flipped = (last_choice==0) ? 1 : 0;
+			var time_to_lock = dummy_choices.indexOf(flipped);
+			
 			if (time_to_lock == -1)
 				time_to_lock = 0;
 			else
-				time_to_lock = parameters.steps - 1 - time_to_lock; //The last choice was removed with the shift
+				time_to_lock = parameters.steps - time_to_lock; //The last choice was removed with the shift
 			total_times_to_lock[num_restricted-1] += time_to_lock;
+
+			if (last_choice==target)
+				total_times_to_successful_lock[num_restricted-1] += time_to_lock;
+			else
+				total_times_to_incorrect_lock[num_restricted-1] += time_to_lock;
 		}
 	}
 
@@ -86,7 +98,9 @@ function simulate(parameters) {
 		parameters: parameters,
 		success_counts: success_counts,
 		consensus_counts: consensus_counts,
-		total_times_to_lock: total_times_to_lock
+		total_times_to_lock: total_times_to_lock,
+		total_times_to_successful_lock: total_times_to_successful_lock,
+		total_times_to_incorrect_lock: total_times_to_incorrect_lock
 	};
 }
 

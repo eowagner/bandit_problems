@@ -35,13 +35,17 @@ console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 var succ_heads = "";
 var con_heads = "";
 var time_heads = "";
+var time_succ_heads = "";
+var time_incorrect_heads = "";
 for (var i=1; i<num_agents-1; i++) {
 	succ_heads += "," + i + "_res_success";
 	con_heads += "," + i +"_res_consensus";
 	time_heads += "," + i + "_res_time";
+	time_succ_heads += "," + i + "_res_succ_time";
+	time_incorrect_heads += "," + i + "_res_incorrect_time";
 }
 
-console.log("num_agents,p0,p1" + succ_heads + con_heads);
+console.log("num_agents,p0,p1" + succ_heads + con_heads + time_heads + time_succ_heads + time_incorrect_heads);
 
 var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
@@ -107,7 +111,9 @@ function convert_results_to_string(res) {
 
 	s += res.success_counts.join(",") + ",";
 	s += res.consensus_counts.join(",") + ",";
-	s += res.total_times_to_lock.join(",");
+	s += res.total_times_to_lock.join(",") + ",";
+	s += res.total_times_to_successful_lock.join(",") + ",";
+	s += res.total_times_to_incorrect_lock.join(",");
 
 	return s;
 }
