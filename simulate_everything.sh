@@ -8,7 +8,7 @@ RUNS=100000
 mkdir -p $DNAME
 
 nodejs bernoulli_simulations/time.js -r $RUNS -s 1000 -q .6 | tee "$DNAME/time.csv"
-nodejs bernoulli_simulations/baseline_p_parent.js -p uniform -r $RUNS -s 20 -n 9 | tee "$DNAME/baseline-p.csv"
+nodejs bernoulli_simulations/baseline_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 | tee "$DNAME/baseline-p.csv"
 nodejs bernoulli_simulations/baseline_agents_parent.js -p uniform -r $RUNS -s 1000 -q .6 | tee "$DNAME/baseline-agents-6.csv"
 nodejs bernoulli_simulations/diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize| tee "$DNAME/diss-p-randomized.csv"
 nodejs bernoulli_simulations/diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c low| tee "$DNAME/diss-p-low.csv"
