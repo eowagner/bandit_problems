@@ -4,7 +4,7 @@ from matplotlib import cm
 from numpy import linspace
 import seaborn as sns
 
-dirname = 'bernoulli-100k/'
+dirname = 'bernoulli-10k/'
 
 start = 0.0
 stop = 1.0

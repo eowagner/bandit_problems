@@ -100,7 +100,7 @@ function simulate(parameters) {
 		if (time_to_lock == -1)
 			time_to_lock = 0;
 		else
-			time_to_lock = parameters.steps - time_to_lock; //The last choice was removed with the shift
+			time_to_lock = parameters.steps - time_to_lock + 1; //The last choice was removed with the shift
 
 		if (last_choice==target)
 			successful_lock_times.push(time_to_lock);

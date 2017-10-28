@@ -45,7 +45,7 @@ for (var i=1; i<num_agents-1; i++) {
 	time_incorrect_heads += "," + i + "_res_incorrect_time";
 }
 
-console.log("num_agents,p0,p1" + succ_heads + con_heads);
+console.log("num_agents,p0,p1" + succ_heads + con_heads + time_heads + time_succ_heads + time_incorrect_heads);
 
 var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
