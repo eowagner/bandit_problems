@@ -30,6 +30,7 @@ if ('q' in argv)
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 console.log("# Which arm is restricted: " + which_arm_restricted);
+console.log("# q: " + q);
 
 var ps = [.5, q];
 
@@ -80,19 +81,10 @@ var lock_times = {};
 lock_times["comp_succ"] = [];
 lock_times["comp_inc"] = [];
 
-var graph_list = [complete_graph, complete_graph];
-
 for (var r=0; r<runs; r++) {
 	var target = (ps[0] > ps[1]) ? 0 : 1;
-	var network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, graph_list);
-
-	if (randomize) {
-	// Flip coin to determine order of machines and thus which machine is censored
-		if (Math.random() < .5) {
-			network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list_flipped, graph_list);
-			target = (target==1) ? 0 : 1;
-		}
-	}
+	// var network = new social_networks.DisseminationDummyNetwork(agent_list, machine_list, [complete_graph, complete_graph]);
+	var network = new social_networks.DummyNetwork(agent_list, machine_list, complete_graph);
 
 	agent_list.forEach(function (a) {
 		a.reset();
@@ -293,6 +285,8 @@ for (var i=0; i<m; i++) {
 	
 	console.log(s);
 }
+
+console.log("# Totals: " + lengths);
 
 var end_time = new Date().getTime();
 console.log("# " + (end_time-start_time)/1000/60 + " minutes elapsed");
