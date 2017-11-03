@@ -4,7 +4,7 @@ from matplotlib import cm
 from numpy import linspace
 import seaborn as sns
 
-dirname = 'bernoulli-10k/'
+dirname = 'bernoulli-100k/'
 
 start = 0.0
 stop = 1.0
@@ -12,7 +12,7 @@ number_of_colors= 8
 cm_subsection = linspace(start, stop, number_of_colors) 
 circular_colors = [ cm.jet(x) for x in cm_subsection ]
 
-markers = ["o", "+", "x", "^"]
+markers = ["o", "+", "x", "^", "p"]
 
 colors = [sns.xkcd_rgb["pale red"]]
 
@@ -110,7 +110,7 @@ plt.savefig("combo.pdf")
 
 ax_hybrid_comp = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=colors[0], marker=markers[0], label="The DURC arm is chosen randomly")
 hybrid_low.plot(kind="scatter", x="p0", y="1_res_success", color=colors[1], marker=markers[1], label="The worse arm is the DURC arm", ax=ax_hybrid_comp)
-hybrid_high.plot(kind="scatter", x="p1", y="1_res_success", color=colors[2], marker=markers[2], label="The better arm is the DURC arm", ax=ax_hybrid_comp)
+# hybrid_high.plot(kind="scatter", x="p1", y="1_res_success", color=colors[2], marker=markers[2], label="The better arm is the DURC arm", ax=ax_hybrid_comp)
 baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_hybrid_comp)
 ax_hybrid_comp.set_xlabel("p")
 ax_hybrid_comp.set_ylabel("Number of trials that resulted in successful learning")
@@ -125,6 +125,23 @@ ax_reg_comp.set_xlabel("p")
 ax_reg_comp.set_ylabel("Number of trials that resulted in successful learning")
 ax_reg_comp.set_title("Comparing Regulatory Schemes")
 plt.savefig("regulations-comp.pdf")
+
+#time data
+baseline['time_star'] = baseline['time_star'].apply(lambda x: x/100000)
+baseline['time_complete'] = baseline['time_complete'].apply(lambda x: x/100000)
+diss_p_rand['time'] = diss_p_rand['time'].apply(lambda x: x/100000)
+conduct_rand['1_res_time'] = conduct_rand['1_res_time'].apply(lambda x: x/100000)
+hybrid_rand['1_res_time'] = hybrid_rand['1_res_time'].apply(lambda x: x/100000)
+
+# ax_time = baseline.plot(kind="scatter", x="p1", y="time_star", color=colors[0], marker=markers[0], label="Star graph -- baseline")
+ax_time = diss_p_rand.plot(kind="scatter", x="p1", y="time", color=colors[0], marker=markers[0], label="Dissemination restricted")
+conduct_rand.plot(kind="scatter", x="p1", y="1_res_time", color=colors[1], marker=markers[1], label="Conduct restricted", ax=ax_time)
+hybrid_rand.plot(kind="scatter", x="p1", y="1_res_time", color=colors[2], marker=markers[2], label="Both restricted", ax=ax_time)
+baseline.plot(kind="scatter", x="p1", y="time_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_time)
+ax_time.set_xlabel("p")
+ax_time.set_ylabel("Mean Time to fixing on an arm (regardless of correct or incorrect)")
+ax_time.set_title("Mean number of steps until fixing")
+plt.savefig("time.pdf")
 
 def pivot(data, base, p):
 	fuzz = .001
