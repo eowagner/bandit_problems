@@ -37,6 +37,8 @@ conduct_rand = pandas.read_csv(dirname + 'conduct-randomized.csv', comment="#")
 conduct_low = pandas.read_csv(dirname + 'conduct-low.csv', comment="#")
 conduct_high = pandas.read_csv(dirname + 'conduct-high.csv', comment="#")
 
+conduct_agents = pandas.read_csv(dirname + 'conduct-agents.csv', comment="#")
+
 hybrid_rand = pandas.read_csv(dirname + 'hybrid-randomized.csv', comment="#")
 hybrid_low = pandas.read_csv(dirname + 'hybrid-low.csv', comment="#")
 hybrid_high = pandas.read_csv(dirname + 'hybrid-high.csv', comment="#")
@@ -72,6 +74,13 @@ ax_diss_agents.set_xlabel("Number of agents")
 ax_diss_agents.set_ylabel("Number of trials that resulted in successful learning")
 ax_diss_agents.set_title("Restricting Dissemination")
 plt.savefig("diss-agents.pdf")
+
+ax_conduct_agents = conduct_agents.plot(kind="scatter", x="num_agents", y="success", color=colors[0], marker=markers[0], label="Restricted Conduct")
+baseline_agents.plot(kind="scatter", x="num_agents", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_conduct_agents)
+ax_conduct_agents.set_xlabel("Number of agents")
+ax_conduct_agents.set_ylabel("Number of trials that resulted in successful learning")
+ax_conduct_agents.set_title("Restricting Conduct")
+plt.savefig("conduct-agents.pdf")
 
 ax_conduct_rand = conduct_rand.plot(kind="scatter", x="p1", y="1_res_success", color=circular_colors[0], label="7 DURC agents")
 conduct_rand.plot(kind="scatter", x="p1", y="2_res_success", color=circular_colors[1], label="6 DURC agents", ax=ax_conduct_rand)
@@ -162,9 +171,9 @@ def pivot(data, base, p):
 
 	return row.append(rowb)
 
-d6 = pivot(conduct_rand, baseline, .6)
-d7 = pivot(conduct_rand, baseline, .7)
-d8 = pivot(conduct_rand, baseline, .8)
+# d6 = pivot(conduct_rand, baseline, .6)
+# d7 = pivot(conduct_rand, baseline, .7)
+# d8 = pivot(conduct_rand, baseline, .8)
 
 # ax_conduct_combined = d6.plot(kind="scatter", x="num_agents_restricted", color=colors[0], marker=markers[0], y="success")
 # d7.plot(kind="scatter", x="num_agents_restricted", y="success", color=colors[-1], marker=markers[1], ax=ax_conduct_combined)
