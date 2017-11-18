@@ -97,5 +97,5 @@ def print_table(a, b, c, d):
 	for n in range(1,20,1):
 		print("Less than {}:\t {} \t {} \t {} \t {}".format(n, a[a<n].count(), b[b<n].count(), c[c<n].count(), d[d<n].count()))
 
-print("\n\n\tComp\tDiss\tCond\tHybrid")
+print("\n\n\t\tComp\tDiss\tCond\tHybrid")
 print_table(df['comp_succ'], df['diss_succ'], df['cond_succ'], df['hybrid_succ'])

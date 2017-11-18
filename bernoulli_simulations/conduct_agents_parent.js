@@ -42,6 +42,7 @@ console.log("# Number of agents who are limited to just one arm: " + num_restric
 console.log("num_agents,p0,p1,success");
 
 var num_agent_list = [];
+var smallest = 2+num_restricted;
 for (var i=3; i<41; i++) {
 	num_agent_list.push(i);
 }
