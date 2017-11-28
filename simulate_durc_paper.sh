@@ -9,8 +9,8 @@ PROG="node"
 mkdir -p $DNAME
 
 # $PROG bernoulli_simulations/time.js -r $RUNS -s 1000 -q .6 | tee "$DNAME/time-6.csv"
-$PROG bernoulli_simulations/time.js -r $RUNS -s 1000 -q .55 | tee "$DNAME/time-55.csv"
-$PROG bernoulli_simulations/time.js -r $RUNS -s 1000 -q .8 | tee "$DNAME/time-8.csv"
+# $PROG bernoulli_simulations/time.js -r $RUNS -s 1000 -q .55 | tee "$DNAME/time-55.csv"
+# $PROG bernoulli_simulations/time.js -r $RUNS -s 1000 -q .8 | tee "$DNAME/time-8.csv"
 # $PROG bernoulli_simulations/baseline_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 | tee "$DNAME/baseline-p.csv"
 # $PROG bernoulli_simulations/baseline_agents_parent.js -p uniform -r $RUNS -s 1000 -q .6 | tee "$DNAME/baseline-agents-6.csv"
 # $PROG bernoulli_simulations/diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize| tee "$DNAME/diss-p-randomized.csv"
