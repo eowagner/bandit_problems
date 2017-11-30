@@ -1,4 +1,0 @@
-# Number of cores: 4
-# Priors: uniform; runs: 100000; steps: 1000
-# Number of agents who are limited to just one arm: 5
-num_agents,p0,p1,success
