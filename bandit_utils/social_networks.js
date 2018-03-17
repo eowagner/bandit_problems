@@ -132,6 +132,30 @@ function ConductDummyNetwork(agents, machines, adjacency_matrix, num_restricted)
 	}
 }
 
+// Case recommended by a referee.  
+// One agents is locked to arm 0, one agent is locked to arm 1, and the other agents are all free to choose
+function SpecialConductDummyNetwork(agents, machines, adjacency_matrix) {
+	DummyNetwork.call(this, agents, machines, adjacency_matrix);
+	
+	this.step = function() {
+		var acts = this.getActs();
+
+		//The agent indexed 1 is forced to use act 0
+		//The agent indexed 2 is forced to use act 1
+		acts[1] = 0;
+		acts[2] = 1;
+
+		var payouts = this.getPayouts(acts);
+
+		for (var i=0; i<acts.length; i++) {
+			for (var j=1; j<acts.length; j++) {
+				if (this.adjacencyMatrix[i][j] == 1)
+					this.agents[i].update(acts[j], payouts[j]);
+			}
+		}
+	}
+}
+
 ConductDummyNetwork.prototype = Object.create(DummyNetwork.prototype);
 ConductDummyNetwork.prototype.constructor = ConductDummyNetwork;
 
@@ -262,6 +286,7 @@ module.exports.Network = Network;
 module.exports.DummyNetwork = DummyNetwork;
 module.exports.DisseminationDummyNetwork = DisseminationDummyNetwork;
 module.exports.ConductDummyNetwork = ConductDummyNetwork;
+module.exports.SpecialConductDummyNetwork = SpecialConductDummyNetwork;
 module.exports.HybridDummyNetwork = HybridDummyNetwork;
 
 module.exports.makeTwoCliquesGraph = makeTwoCliquesGraph;
