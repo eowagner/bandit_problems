@@ -3,7 +3,7 @@
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 DNAME="out/$TIMESTAMP"
 # RUNS=100000
-RUNS=10
+RUNS=10000
 PROG="nodejs"
 
 mkdir -p $DNAME
