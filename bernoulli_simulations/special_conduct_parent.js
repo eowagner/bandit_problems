@@ -40,7 +40,7 @@ console.log("# Number of agents who are limited to just one arm: " + num_restric
 console.log("num_agents,p0,p1,success");
 
 var num_agent_list = [];
-var smallest = 4;
+var smallest = 8;
 for (var i=smallest; i<41; i++) {
 	num_agent_list.push(i);
 }
@@ -80,7 +80,7 @@ function launch_next_child() {
 
 	proc_index++;
 
-	var child = child_process.fork('./bernoulli_simulations/double_conduct_child.js');
+	var child = child_process.fork('./bernoulli_simulations/special_conduct_child.js');
 
 	child.send(parameters);
 
