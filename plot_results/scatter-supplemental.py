@@ -4,7 +4,7 @@ from matplotlib import cm
 from numpy import linspace
 import seaborn as sns
 
-dirname = 'special-case/'
+dirname = 'supplemental/'
 
 markers = ["o", "+", "x", "^", "p"]
 
@@ -16,15 +16,27 @@ colors = [sns.xkcd_rgb[n] for n in xkcdnames]
 
 plt.style.use('seaborn')
 
-baseline = pd.read_csv(dirname+'baseline-agents-55.csv', comment='#')
-conduct_base = pd.read_csv(dirname+'conduct-agents-55.csv', comment='#')
-special_conduct = pd.read_csv(dirname+'special-conduct-agents.csv', comment='#')
+agents_base = pd.read_csv(dirname+'baseline-agents-6.csv', comment='#')
+conduct_base = pd.read_csv(dirname+'conduct-agents-6.csv', comment='#')
+special_conduct = pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#')
 
-
-ax_b = baseline.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='Conduct Baseline')
+ax_b = agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='Conduct Baseline')
 conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Two of the same arms restricted', ax=ax_b)
-special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='Two of both arms restricted', ax=ax_b)
+special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='One of each arms restricted', ax=ax_b)
 plt.show()
+
+
+p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
+p_cycle = pd.read_csv(dirname+'cycle-p.csv', comment='#')
+p_wheel = pd.read_csv(dirname+'wheel-p.csv', comment='#')
+p_star = pd.read_csv(dirname+'star-p.csv', comment='#')
+
+ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=markers[0], label='Star')
+p_cycle.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Cycle', ax=ax)
+p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='Wheel', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+plt.show()
+
 exit()
 
 
