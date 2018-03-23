@@ -20,9 +20,9 @@ agents_base = pd.read_csv(dirname+'baseline-agents-6.csv', comment='#')
 conduct_base = pd.read_csv(dirname+'conduct-agents-6.csv', comment='#')
 special_conduct = pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#')
 
-ax_b = agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='Conduct Baseline')
-conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Two of the same arms restricted', ax=ax_b)
-special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='One of each arms restricted', ax=ax_b)
+ax_b = agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='No restrictions')
+conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Two restricted agents, DURC-style', ax=ax_b)
+special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='Referee suggestion', ax=ax_b)
 plt.show()
 
 
@@ -35,6 +35,16 @@ ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=ma
 p_cycle.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Cycle', ax=ax)
 p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='Wheel', ax=ax)
 p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+plt.show()
+
+dirname = 'supplemental-2/'
+p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
+conduct_base = pd.read_csv(dirname+'conduct-p.csv', comment='#')
+special_conduct = pd.read_csv(dirname+'special-conduct-p.csv', comment='#')
+
+ax = conduct_base.plot(kind='scatter', x='p1', y='2_res_success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
+special_conduct.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Referee suggestion', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[2], marker=markers[2], label='No restrictions', ax=ax)
 plt.show()
 
 exit()

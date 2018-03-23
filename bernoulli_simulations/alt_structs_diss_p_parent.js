@@ -41,6 +41,7 @@ for (var q=.505; q<=.805; q+=.005) {
 
 console.log("# Priors: " + priors + "; runs: " + runs + "; steps: " + steps);
 console.log("# Which arm is restricted: " + which_arm_restricted);
+console.log("# Graph structure: " + alt_graph_name);
 console.log("num_agents,p0,p1,success,consensus,time,success_time,incorrect_time");
 
 var results_as_strings = [];
@@ -66,8 +67,10 @@ function launch_next_child() {
 	switch (alt_graph_name) {
 		case "wheel":
 			alt_graph = social_networks.makeWheelGraph(num_agents);
+			break;
 		case "twocliques":
 			alt_graph = social_networks.makeTwoCliquesGraph(num_agents);
+			break;
 		default:
 			alt_graph = social_networks.makeCycleGraph(num_agents);
 	}
