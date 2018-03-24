@@ -234,36 +234,41 @@ function makeCompleteGraph(numAgents) {
 	return m;
 }
 
-function makeWheelGraph(numAgents) {
+function makeKCycleGraph(numAgents, k) {
 	var m = [];
 	for (var i=0; i<numAgents; i++) {
 		m[i] = [];
-		for(var j=0; j<numAgents; j++) {
-			if (i==0 || j==0 || i==j)
-				m[i][j] = 1;
-			else if (j==(i+1)%numAgents || j==(i-1)%numAgents)
-				m[i][j] = 1;
-			else
-				m[i][j] = 0;
+		for (var j=0; j<numAgents; j++) {
+			m[i][j] = 0;
 		}
 	}
+
+	for (var i=0; i<numAgents; i++) {
+		for (var j=0; j<=k; j++) {
+			var u = (i+j)%numAgents;
+			var l = (i>=j) ? i-j : numAgents+i-j;
+
+			m[i][u] = 1;
+			m[i][l] = 1;
+		}
+	}
+
 	return m;
 }
 
 function makeCycleGraph(numAgents) {
-	var m = [];
-	for (var i=0; i<numAgents; i++) {
-		m[i] = [];
-		for(var j=0; j<numAgents; j++) {
-			if (i==j)
-				m[i][j] = 1;
-			else if (j==(i+1)%numAgents || j==(i-1)%numAgents)
-				m[i][j] = 1;
-			else
-				m[i][j] = 0;
-		}
+	return makeKCycleGraph(numAgents, 1);
+}
+
+function makeWheelGraph(numAgents) {
+	var g = makeCycleGraph(numAgents);
+
+	for (var j=1; j<numAgents; j++) {
+		g[0][j] = 1;
+		g[j][0] = 1;
 	}
-	return m;
+
+	return g;
 }
 
 function makeLineGraph(numAgents) {
@@ -295,3 +300,4 @@ module.exports.makeLineGraph = makeLineGraph;
 module.exports.makeCycleGraph = makeCycleGraph;
 module.exports.makeWheelGraph = makeWheelGraph;
 module.exports.makeCompleteGraph = makeCompleteGraph;
+module.exports.makeKCycleGraph = makeKCycleGraph;
