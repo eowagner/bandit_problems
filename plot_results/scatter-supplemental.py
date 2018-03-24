@@ -23,6 +23,9 @@ special_conduct = pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#
 ax_b = agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='No restrictions')
 conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Two restricted agents, DURC-style', ax=ax_b)
 special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='Referee suggestion', ax=ax_b)
+ax_b.set_xlabel("Number of agents")
+ax_b.set_ylabel("Number of trials that resulted in successful learning")
+ax_b.set_title("Revise and Resubmit comparison, p = .6")
 plt.show()
 
 
@@ -37,7 +40,7 @@ p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=marker
 p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
 plt.show()
 
-dirname = 'supplemental-2/'
+
 p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
 conduct_base = pd.read_csv(dirname+'conduct-p.csv', comment='#')
 special_conduct = pd.read_csv(dirname+'special-conduct-p.csv', comment='#')

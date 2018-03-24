@@ -15,6 +15,7 @@ var num_agents = 9;
 var priors = "uniform";
 var which_arm_restricted = "randomize"; //low, or high
 var alt_graph_name = "cycle";
+var k = 1;
 
 if ('p' in argv)
 	priors = argv['p'];
@@ -33,6 +34,9 @@ if ('c' in argv)
 
 if ('a' in argv)
 	alt_graph_name = argv['a'];
+
+	if (alt_graph_name == 'kcycle' && 'k' in argv)
+		var k = argv['k'];
 
 var p_list = [];
 for (var q=.505; q<=.805; q+=.005) {
@@ -70,6 +74,9 @@ function launch_next_child() {
 			break;
 		case "twocliques":
 			alt_graph = social_networks.makeTwoCliquesGraph(num_agents);
+			break;
+		case "kcycle":
+			alt_graph = social_networks.makeKCycleGraph(num_agents, k);
 			break;
 		default:
 			alt_graph = social_networks.makeCycleGraph(num_agents);
