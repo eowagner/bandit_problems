@@ -28,9 +28,18 @@ ax_b.set_ylabel("Number of trials that resulted in successful learning")
 ax_b.set_title("Revise and Resubmit comparison, p = .6")
 plt.show()
 
+p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
+conduct_base = pd.read_csv(dirname+'conduct-p.csv', comment='#')
+special_conduct = pd.read_csv(dirname+'special-conduct-p.csv', comment='#')
+
+ax = conduct_base.plot(kind='scatter', x='p1', y='2_res_success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
+special_conduct.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Referee suggestion', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[2], marker=markers[2], label='No restrictions', ax=ax)
+plt.show()
+
 
 p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
-p_cycle = pd.read_csv(dirname+'cycle-p.csv', comment='#')
+p_cycle = pd.read_csv(dirname+'cycle-1-p.csv', comment='#')
 p_wheel = pd.read_csv(dirname+'wheel-p.csv', comment='#')
 p_star = pd.read_csv(dirname+'star-p.csv', comment='#')
 
@@ -40,14 +49,17 @@ p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=marker
 p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
 plt.show()
 
-
 p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
-conduct_base = pd.read_csv(dirname+'conduct-p.csv', comment='#')
-special_conduct = pd.read_csv(dirname+'special-conduct-p.csv', comment='#')
+p_cycle_1 = pd.read_csv(dirname+'cycle-1-p.csv', comment='#')
+p_cycle_2 = pd.read_csv(dirname+'cycle-2-p.csv', comment='#')
+p_cycle_3 = pd.read_csv(dirname+'cycle-3-p.csv', comment='#')
+p_star = pd.read_csv(dirname+'star-p.csv', comment='#')
 
-ax = conduct_base.plot(kind='scatter', x='p1', y='2_res_success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
-special_conduct.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Referee suggestion', ax=ax)
-p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[2], marker=markers[2], label='No restrictions', ax=ax)
+ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=markers[0], label='Star')
+p_cycle_1.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='1-Cycle', ax=ax)
+p_cycle_2.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='2-Cycle', ax=ax)
+p_cycle_3.plot(kind='scatter', x='p1', y='success', color=colors[3], marker=markers[3], label='3-Cycle', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[4], marker=markers[4], label='No restrictions', ax=ax)
 plt.show()
 
 exit()
