@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy
 
 dirname = 'bernoulli-100k/'
-
+total = 100000
 
 xkcdnames = ["windows blue", "amber", "greyish", "faded green", "dusty purple"]
 xkcdnames = ["windows blue", "dusty purple", "faded green", "amber", "greyish"]
@@ -21,6 +21,11 @@ def print_table(a, b, c, d):
 def makefigures(p):
 	df = pandas.read_csv(dirname + 'time-' + str(p) + '.csv', comment="#")
 	df = df.drop('index', axis=1)
+
+	# df['diss_succ'] = df['diss_succ']/total
+	# df['comp_succ'] = df['comp_succ']/total
+	# df['cond_succ'] = df['cond_succ']/total
+	# df['hybrid_succ'] = df['hybrid_succ']/total
 
 	print(df.describe())
 
@@ -46,7 +51,7 @@ def makefigures(p):
 	sns.distplot(comp_s, kde=False, color=colors[3], ax=a, label="No restrictions", hist_kws=dict(cumulative=True, edgecolor='black', linewidth=1.2), kde_kws=dict(cumulative=True))
 	plt.legend(loc='lower right')
 	# plt.show()
-	plt.savefig("cumulative_diss-" + str(p) + ".pdf")
+	plt.savefig("figures/cumulative_diss-" + str(p) + ".pdf")
 
 	#Cumulative Histogram for conduct
 	cond_s = cond_s[cond_s < n]
@@ -62,7 +67,7 @@ def makefigures(p):
 	sns.distplot(comp_s, kde=False, color=colors[3], ax=a, label="No restrictions", hist_kws=dict(cumulative=True, edgecolor='black', linewidth=1.2), kde_kws=dict(cumulative=True))
 	plt.legend()
 	# plt.show()
-	plt.savefig("cumulative_cond-" + str(p) + ".pdf")
+	plt.savefig("figures/cumulative_cond-" + str(p) + ".pdf")
 
 	#Cumulative Histogram for hybrid
 	hybrid_s = hybrid_s[hybrid_s < n]
@@ -78,7 +83,7 @@ def makefigures(p):
 	sns.distplot(comp_s, kde=False, color=colors[3], ax=a, label="No restrictions", hist_kws=dict(cumulative=True, edgecolor='black', linewidth=1.2), kde_kws=dict(cumulative=True))
 	plt.legend()
 	# plt.show()
-	plt.savefig("cumulative_hybrid-" + str(p) + ".pdf")
+	plt.savefig("figures/cumulative_hybrid-" + str(p) + ".pdf")
 
 	# Print the cumulative table
 	print("\n\n\t\tComp\tDiss\tCond\tHybrid")
