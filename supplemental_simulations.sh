@@ -3,7 +3,7 @@
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 DNAME="out/$TIMESTAMP"
 # RUNS=100000
-RUNS=10000
+RUNS=1000
 PROG="nodejs"
 
 mkdir -p $DNAME
@@ -18,4 +18,5 @@ mkdir -p $DNAME
 $PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a kcycle -k 1 | tee "$DNAME/cycle-1-p.csv"
 $PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a kcycle -k 2 | tee "$DNAME/cycle-2-p.csv"
 $PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a kcycle -k 3 | tee "$DNAME/cycle-3-p.csv"
-$PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a wheel | tee "$DNAME/wheel-p.csv"
+$PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a kcycle -k 4 | tee "$DNAME/cycle-4-p.csv"
+# $PROG bernoulli_simulations/alt_structs_diss_p_parent.js -p uniform -r $RUNS -s 1000 -n 9 -c randomize -a wheel | tee "$DNAME/wheel-p.csv"
