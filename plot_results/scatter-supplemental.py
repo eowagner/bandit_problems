@@ -5,62 +5,65 @@ from numpy import linspace
 import seaborn as sns
 
 dirname = 'supplemental/'
+total = 10000
 
-markers = ["o", "+", "x", "^", "p"]
+markers = ["o", "+", "x", "^", "p", "d"]
 
 colors = [sns.xkcd_rgb["pale red"]]
 
-xkcdnames = ["windows blue", "amber", "greyish", "faded green", "dusty purple"]
-xkcdnames = ["windows blue", "dusty purple", "faded green", "amber", "greyish"]
+xkcdnames = ["windows blue", "amber", "greyish", "faded green", "dusty purple", "pale red"]
+xkcdnames = ["windows blue", "dusty purple", "faded green", "amber", "greyish", "pale red"]
 colors = [sns.xkcd_rgb[n] for n in xkcdnames]
 
 plt.style.use('seaborn')
 
-agents_base = pd.read_csv(dirname+'baseline-agents-6.csv', comment='#')
-conduct_base = pd.read_csv(dirname+'conduct-agents-6.csv', comment='#')
-special_conduct = pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#')
+def normalize(df, col):
+	df[col] = df[col]/total
+	return df
 
-ax_b = agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[0], marker=markers[0], label='No restrictions')
-conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Two restricted agents, DURC-style', ax=ax_b)
-special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='Referee suggestion', ax=ax_b)
-ax_b.set_xlabel("Number of agents")
-ax_b.set_ylabel("Number of trials that resulted in successful learning")
-ax_b.set_title("Revise and Resubmit comparison, p = .6")
-plt.show()
+agents_base = normalize(pd.read_csv(dirname+'baseline-agents-6.csv', comment='#'), 'success_complete')
+agents_base = agents_base.loc[agents_base['num_agents']>8]
+conduct_base = normalize(pd.read_csv(dirname+'conduct-agents-6.csv', comment='#'), 'success')
+conduct_base = conduct_base.loc[conduct_base['num_agents']>8]
+special_conduct = normalize(pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#'), 'success')
+special_conduct = special_conduct.loc[special_conduct['num_agents']>8]
 
-p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
-conduct_base = pd.read_csv(dirname+'conduct-p.csv', comment='#')
-special_conduct = pd.read_csv(dirname+'special-conduct-p.csv', comment='#')
+ax = conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
+special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Referee\'s suggestion, One agent locked to arm A and another locked to arm B', ax=ax)
+agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+ax.set_xlabel("Number of agents")
+ax.set_ylabel("Probability of successful learning")
+ax.set_title("Revise and Resubmit comparison, p = .6")
+plt.savefig("figures/randr_agents.pdf")
+
+p_base = normalize(pd.read_csv(dirname+'baseline-p.csv', comment='#'), 'success_complete')
+conduct_base = normalize(pd.read_csv(dirname+'conduct-p.csv', comment='#'), '2_res_success')
+special_conduct = normalize(pd.read_csv(dirname+'special-conduct-p.csv', comment='#'), 'success')
 
 ax = conduct_base.plot(kind='scatter', x='p1', y='2_res_success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
-special_conduct.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Referee suggestion', ax=ax)
-p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[2], marker=markers[2], label='No restrictions', ax=ax)
-plt.show()
-
-
-p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
-p_cycle = pd.read_csv(dirname+'cycle-1-p.csv', comment='#')
-p_wheel = pd.read_csv(dirname+'wheel-p.csv', comment='#')
-p_star = pd.read_csv(dirname+'star-p.csv', comment='#')
-
-ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=markers[0], label='Star')
-p_cycle.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='Cycle', ax=ax)
-p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='Wheel', ax=ax)
+special_conduct.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label="Referee\'s' suggestion", ax=ax)
 p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
-plt.show()
+ax.set_xlabel("p")
+ax.set_ylabel("Probability of successful learning")
+ax.set_title("Revise and Resubmit comparison, N=9")
+plt.savefig("figures/randr_p.pdf")
 
-p_base = pd.read_csv(dirname+'baseline-p.csv', comment='#')
-p_cycle_1 = pd.read_csv(dirname+'cycle-1-p.csv', comment='#')
-p_cycle_2 = pd.read_csv(dirname+'cycle-2-p.csv', comment='#')
-p_cycle_3 = pd.read_csv(dirname+'cycle-3-p.csv', comment='#')
-p_star = pd.read_csv(dirname+'star-p.csv', comment='#')
+p_wheel = normalize(pd.read_csv(dirname+'wheel-p.csv', comment='#'), 'success')
+p_cycle_1 = normalize(pd.read_csv(dirname+'cycle-1-p.csv', comment='#'), 'success')
+p_cycle_2 = normalize(pd.read_csv(dirname+'cycle-2-p.csv', comment='#'), 'success')
+p_cycle_3 = normalize(pd.read_csv(dirname+'cycle-3-p.csv', comment='#'), 'success')
+p_star = normalize(pd.read_csv(dirname+'star-p.csv', comment='#'), 'success')
 
 ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=markers[0], label='Star')
+p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[5], marker=markers[5], label='Wheel', ax=ax)
 p_cycle_1.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='1-Cycle', ax=ax)
 p_cycle_2.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='2-Cycle', ax=ax)
-p_cycle_3.plot(kind='scatter', x='p1', y='success', color=colors[3], marker=markers[3], label='3-Cycle', ax=ax)
-p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[4], marker=markers[4], label='No restrictions', ax=ax)
-plt.show()
+p_cycle_3.plot(kind='scatter', x='p1', y='success', color=colors[4], marker=markers[4], label='3-Cycle', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+ax.set_xlabel("p")
+ax.set_ylabel("Probability of successful learning")
+ax.set_title("Alternative dissemination networks")
+plt.savefig("figures/randr_alt_graphs.pdf")
 
 exit()
 
