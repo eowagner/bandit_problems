@@ -78,8 +78,6 @@ function launch_next_child() {
 		case "kcycle":
 			alt_graph = social_networks.makeKCycleGraph(num_agents, k);
 			break;
-		default:
-			alt_graph = social_networks.makeCycleGraph(num_agents);
 	}
 
 	var alt_graph = social_networks.makeCycleGraph(num_agents);
