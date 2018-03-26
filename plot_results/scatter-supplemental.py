@@ -5,7 +5,8 @@ from numpy import linspace
 import seaborn as sns
 
 dirname = 'supplemental/'
-total = 10000
+dirnameOG = 'bernoulli-100k/'
+total = 100000
 
 markers = ["o", "+", "x", "^", "p", "d"]
 
@@ -21,12 +22,12 @@ def normalize(df, col):
 	df[col] = df[col]/total
 	return df
 
-agents_base = normalize(pd.read_csv(dirname+'baseline-agents-6.csv', comment='#'), 'success_complete')
-agents_base = agents_base.loc[agents_base['num_agents']>8]
-conduct_base = normalize(pd.read_csv(dirname+'conduct-agents-6.csv', comment='#'), 'success')
-conduct_base = conduct_base.loc[conduct_base['num_agents']>8]
+agents_base = normalize(pd.read_csv(dirnameOG+'baseline-agents-6.csv', comment='#'), 'success_complete')
+agents_base = agents_base.loc[agents_base['num_agents']>7]
+conduct_base = normalize(pd.read_csv(dirnameOG+'conduct-agents-2.csv', comment='#'), 'success')
+conduct_base = conduct_base.loc[conduct_base['num_agents']>7]
 special_conduct = normalize(pd.read_csv(dirname+'special-conduct-agents-6.csv', comment='#'), 'success')
-special_conduct = special_conduct.loc[special_conduct['num_agents']>8]
+special_conduct = special_conduct.loc[special_conduct['num_agents']>7]
 
 ax = conduct_base.plot(kind='scatter', x='num_agents', y='success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
 special_conduct.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='Referee\'s suggestion, One agent locked to arm A and another locked to arm B', ax=ax)
@@ -36,8 +37,8 @@ ax.set_ylabel("Probability of successful learning")
 ax.set_title("Revise and Resubmit comparison, p = .6")
 plt.savefig("figures/randr_agents.pdf")
 
-p_base = normalize(pd.read_csv(dirname+'baseline-p.csv', comment='#'), 'success_complete')
-conduct_base = normalize(pd.read_csv(dirname+'conduct-p.csv', comment='#'), '2_res_success')
+p_base = normalize(pd.read_csv(dirnameOG+'baseline-p.csv', comment='#'), 'success_complete')
+conduct_base = normalize(pd.read_csv(dirnameOG+'conduct-randomized.csv', comment='#'), '2_res_success')
 special_conduct = normalize(pd.read_csv(dirname+'special-conduct-p.csv', comment='#'), 'success')
 
 ax = conduct_base.plot(kind='scatter', x='p1', y='2_res_success', color=colors[0], marker=markers[0], label='Two restricted agents, DURC-style')
@@ -47,6 +48,7 @@ ax.set_xlabel("p")
 ax.set_ylabel("Probability of successful learning")
 ax.set_title("Revise and Resubmit comparison, N=9")
 plt.savefig("figures/randr_p.pdf")
+
 
 p_wheel = normalize(pd.read_csv(dirname+'wheel-p.csv', comment='#'), 'success')
 p_cycle_1 = normalize(pd.read_csv(dirname+'cycle-1-p.csv', comment='#'), 'success')
