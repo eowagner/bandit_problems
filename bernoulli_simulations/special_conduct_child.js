@@ -44,12 +44,13 @@ function simulate(parameters) {
 	// This runs just the case recommended by a referee in which one agent is locked to arm 0, one is locked to arm 1, and the others are all free to choose
 	for (var r=0; r<parameters.runs; r++) {
 		var target = (parameters.p[0] > parameters.p[1]) ? 0 : 1;
+
 		var network = new social_networks.SpecialConductDummyNetwork(agent_list, machine_list, parameters.graph);
 
 		if (parameters.randomize == true) {
 			// Flip coin to determine order of machines and thus which machine is censored
-			if (Math.random() < .5) {
-				network = new social_networks.SpecialConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph);
+			if (Math.random() < .3) {
+				network = new social_networks.ConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph);
 				target = (target==1) ? 0 : 1;
 			}
 		}
