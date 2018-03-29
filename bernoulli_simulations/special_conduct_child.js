@@ -47,9 +47,12 @@ function simulate(parameters) {
 
 		var network = new social_networks.SpecialConductDummyNetwork(agent_list, machine_list, parameters.graph);
 
+		var t = (parameters.p[1]-.5)/.1;
+		t = (t>1) ? 1 : t;
+		t = (t<.6) ? .6 : t;
 		if (parameters.randomize == true) {
 			// Flip coin to determine order of machines and thus which machine is censored
-			if (Math.random() < .3) {
+			if (Math.random() > t) {
 				network = new social_networks.ConductDummyNetwork(agent_list, machine_list_flipped, parameters.graph);
 				target = (target==1) ? 0 : 1;
 			}
