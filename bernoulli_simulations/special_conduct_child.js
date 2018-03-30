@@ -49,7 +49,7 @@ function simulate(parameters) {
 
 		
 		var tt = parameters.p[1]-.5
-		var t = 1 / (1+Math.pow(Math.E, -1*35*tt))
+		var t = 1 / (1+Math.pow(Math.E, -1*25*tt))
 		// var t = Math.pow(2, parameters.p[1]-.5)/Math.pow(2,qq-.5);
 		// t = (t>1) ? 1 : t;
 		// if (parameters.p[1]>qq)
