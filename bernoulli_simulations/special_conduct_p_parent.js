@@ -40,7 +40,7 @@ console.log("# Number of agents who are limited to just one arm: " + num_restric
 console.log("num_agents,p0,p1,success");
 
 var p_list = [];
-for (var q=.505; q<=.705; q+=.005) {
+for (var q=.505; q<=.805; q+=.005) {
 	p_list.push(q);
 }
 
