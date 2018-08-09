@@ -5,6 +5,8 @@ from numpy import linspace
 import seaborn as sns
 
 dirname = 'bernoulli-100k/'
+dirnameOtherStructs = 'supplemental/'
+
 total = 100000
 
 start = 0.0
@@ -52,19 +54,19 @@ hybrid_rand = normalize(pandas.read_csv(dirname + 'hybrid-randomized.csv', comme
 hybrid_low = normalize(pandas.read_csv(dirname + 'hybrid-low.csv', comment="#"), cols)
 hybrid_high = normalize(pandas.read_csv(dirname + 'hybrid-high.csv', comment="#"), cols)
 
-ax_baseline = baseline.plot(kind="scatter", x="p1", y="success_star", color=colors[0], marker=markers[0], label="Star graph")
-baseline.plot(kind="scatter", x="p1", y="success_complete", label="Complete graph", color=colors[1], marker=markers[1], ax=ax_baseline)
-ax_baseline.set_xlabel("p")
-ax_baseline.set_ylabel("Probability of successful learning")
-ax_baseline.set_title("Baseline comparison")
-plt.savefig("figures/baseline.pdf")
+# ax_baseline = baseline.plot(kind="scatter", x="p1", y="success_star", color=colors[0], marker=markers[0], label="Star graph")
+# baseline.plot(kind="scatter", x="p1", y="success_complete", label="Complete graph", color=colors[1], marker=markers[1], ax=ax_baseline)
+# ax_baseline.set_xlabel("p")
+# ax_baseline.set_ylabel("Probability of successful learning")
+# ax_baseline.set_title("Baseline comparison")
+# plt.savefig("figures/baseline.pdf")
 
-ax_baseline_agents = baseline_agents.plot(kind="scatter", x="num_agents", y="success_star", color=colors[0], marker=markers[0], label="Star graph")
-baseline_agents.plot(kind="scatter", x="num_agents", y="success_complete", color=colors[1], marker=markers[1], label="Complete graph", ax=ax_baseline_agents)
-ax_baseline_agents.set_xlabel("Number of agents")
-ax_baseline_agents.set_ylabel("Probability of successful learning")
-ax_baseline_agents.set_title("Baseline comparison agents")
-plt.savefig("figures/baseline-agents.pdf")
+# ax_baseline_agents = baseline_agents.plot(kind="scatter", x="num_agents", y="success_star", color=colors[0], marker=markers[0], label="Star graph")
+# baseline_agents.plot(kind="scatter", x="num_agents", y="success_complete", color=colors[1], marker=markers[1], label="Complete graph", ax=ax_baseline_agents)
+# ax_baseline_agents.set_xlabel("Number of agents")
+# ax_baseline_agents.set_ylabel("Probability of successful learning")
+# ax_baseline_agents.set_title("Baseline comparison agents")
+# plt.savefig("figures/baseline-agents.pdf")
 
 ax_diss = diss_p_rand.plot(kind="scatter", x="p1", y="success", color=colors[0], marker=markers[0], label="Dissemination is restricted")
 # diss_p_low.plot(kind="scatter", x="p1", y="success", color=colors[1], marker=markers[1], label="The worse arm's dissemination is restricted", ax=ax_diss)
@@ -73,7 +75,7 @@ baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], mar
 ax_diss.set_xlabel("p")
 ax_diss.set_ylabel("Probability of successful learning")
 ax_diss.set_title("Restricting Dissemination")
-plt.savefig("figures/dissemination.pdf")
+plt.savefig("figures/Fig1.pdf")
 
 ax_diss_agents = diss_agents_rand.plot(kind="scatter", x="num_agents", y="success", color=colors[0], marker=markers[0], label="Dissemination is restricted")
 # diss_agents_low.plot(kind="scatter", x="num_agents", y="success", color=colors[1], marker=markers[1], label="The worse arm's dissemination is restricted", ax=ax_diss_agents)
@@ -82,7 +84,10 @@ baseline_agents.plot(kind="scatter", x="num_agents", y="success_complete", color
 ax_diss_agents.set_xlabel("Number of agents")
 ax_diss_agents.set_ylabel("Probability of successful learning")
 ax_diss_agents.set_title("Restricting Dissemination, p = .6")
-plt.savefig("figures/diss-agents.pdf")
+plt.savefig("figures/Fig2.pdf")
+
+####
+# Fig 3 are the alternative dissemination networks
 
 ax_conduct_agents = conduct_agents_1.plot(kind="scatter", x="num_agents", y="success", color=colors[0], marker=markers[0], label="1 agent limited")
 conduct_agents_2.plot(kind="scatter", x="num_agents", y="success", color=colors[1], marker=markers[1], label="2 agents limited", ax=ax_conduct_agents)
@@ -91,51 +96,51 @@ baseline_agents.plot(kind="scatter", x="num_agents", y="success_complete", color
 ax_conduct_agents.set_xlabel("Number of agents")
 ax_conduct_agents.set_ylabel("Probability of successful learning")
 ax_conduct_agents.set_title("Restricting Conduct, p = .6")
-plt.savefig("figures/conduct-agents.pdf")
+plt.savefig("figures/Fig5.pdf")
 
-ax_conduct_rand = conduct_rand.plot(kind="scatter", x="p1", y="1_res_success", color=circular_colors[0], label="7 dual-use agents")
-conduct_rand.plot(kind="scatter", x="p1", y="2_res_success", color=circular_colors[1], label="6 dual-use agents", ax=ax_conduct_rand)
-conduct_rand.plot(kind="scatter", x="p1", y="3_res_success", color=circular_colors[2], label="5 dual-use agents", ax=ax_conduct_rand)
-conduct_rand.plot(kind="scatter", x="p1", y="4_res_success", color=circular_colors[3], label="4 dual-use agents", ax=ax_conduct_rand)
-conduct_rand.plot(kind="scatter", x="p1", y="5_res_success", color=circular_colors[4], label="3 dual-use agents", ax=ax_conduct_rand)
-conduct_rand.plot(kind="scatter", x="p1", y="6_res_success", color=circular_colors[5], label="2 dual-use agents", ax=ax_conduct_rand)
-conduct_rand.plot(kind="scatter", x="p1", y="7_res_success", color=circular_colors[6], label="1 dual-use agent", ax=ax_conduct_rand)
+ax_conduct_rand = conduct_rand.plot(kind="scatter", x="p1", y="1_res_success", color=circular_colors[0], label="7 unrestricted agents")
+conduct_rand.plot(kind="scatter", x="p1", y="2_res_success", color=circular_colors[1], label="6 unrestricted agents", ax=ax_conduct_rand)
+conduct_rand.plot(kind="scatter", x="p1", y="3_res_success", color=circular_colors[2], label="5 unrestricted agents", ax=ax_conduct_rand)
+conduct_rand.plot(kind="scatter", x="p1", y="4_res_success", color=circular_colors[3], label="4 unrestricted agents", ax=ax_conduct_rand)
+conduct_rand.plot(kind="scatter", x="p1", y="5_res_success", color=circular_colors[4], label="3 unrestricted agents", ax=ax_conduct_rand)
+conduct_rand.plot(kind="scatter", x="p1", y="6_res_success", color=circular_colors[5], label="2 unrestricted agents", ax=ax_conduct_rand)
+conduct_rand.plot(kind="scatter", x="p1", y="7_res_success", color=circular_colors[6], label="1 unrestricted agent", ax=ax_conduct_rand)
 baseline.plot(kind="scatter", x="p1", y="success_complete", color=circular_colors[7], marker=markers[3], label="No restrictions", ax=ax_conduct_rand)
 ax_conduct_rand.set_xlabel("p")
 ax_conduct_rand.set_ylabel("Probability of successful learning")
 ax_conduct_rand.set_title("Restricting Conduct")
-plt.savefig("figures/conduct.pdf")
+plt.savefig("figures/Fig4.pdf")
 
-ax_conduct_comp = conduct_rand.plot(kind="scatter", x="p1", y="2_res_success", color=colors[0], marker=markers[0], label="The DURC arm is chosen randomly")
-conduct_low.plot(kind="scatter", x="p0", y="2_res_success", color=colors[1], marker=markers[1], label="The worse arm is the DURC arm", ax=ax_conduct_comp)
-conduct_high.plot(kind="scatter", x="p1", y="2_res_success", color=colors[2], marker=markers[2], label="The better arm is the DURC arm", ax=ax_conduct_comp)
-baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_conduct_comp)
-ax_conduct_comp.set_xlabel("p")
-ax_conduct_comp.set_ylabel("Probability of successful learning")
-ax_conduct_comp.set_title("Restricting Conduct")
-plt.savefig("figures/conduct-comparison.pdf")
+# ax_conduct_comp = conduct_rand.plot(kind="scatter", x="p1", y="2_res_success", color=colors[0], marker=markers[0], label="The DURC arm is chosen randomly")
+# conduct_low.plot(kind="scatter", x="p0", y="2_res_success", color=colors[1], marker=markers[1], label="The worse arm is the DURC arm", ax=ax_conduct_comp)
+# conduct_high.plot(kind="scatter", x="p1", y="2_res_success", color=colors[2], marker=markers[2], label="The better arm is the DURC arm", ax=ax_conduct_comp)
+# baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_conduct_comp)
+# ax_conduct_comp.set_xlabel("p")
+# ax_conduct_comp.set_ylabel("Probability of successful learning")
+# ax_conduct_comp.set_title("Restricting Conduct")
+# plt.savefig("figures/conduct-comparison.pdf")
 
-ax_hybrid_rand = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=circular_colors[0], label="7 dual-use agents")
-hybrid_rand.plot(kind="scatter", x="p1", y="2_res_success", color=circular_colors[1], label="6 dual-use agents", ax=ax_hybrid_rand)
-hybrid_rand.plot(kind="scatter", x="p1", y="3_res_success", color=circular_colors[2], label="5 dual-use agents", ax=ax_hybrid_rand)
-hybrid_rand.plot(kind="scatter", x="p1", y="4_res_success", color=circular_colors[3], label="4 dual-use agents", ax=ax_hybrid_rand)
-hybrid_rand.plot(kind="scatter", x="p1", y="5_res_success", color=circular_colors[4], label="3 dual-use agents", ax=ax_hybrid_rand)
-hybrid_rand.plot(kind="scatter", x="p1", y="6_res_success", color=circular_colors[5], label="2 dual-use agents", ax=ax_hybrid_rand)
-hybrid_rand.plot(kind="scatter", x="p1", y="7_res_success", color=circular_colors[6], label="1 dual-use agent", ax=ax_hybrid_rand)
+ax_hybrid_rand = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=circular_colors[0], label="7 unrestricted agents")
+hybrid_rand.plot(kind="scatter", x="p1", y="2_res_success", color=circular_colors[1], label="6 unrestricted agents", ax=ax_hybrid_rand)
+hybrid_rand.plot(kind="scatter", x="p1", y="3_res_success", color=circular_colors[2], label="5 unrestricted agents", ax=ax_hybrid_rand)
+hybrid_rand.plot(kind="scatter", x="p1", y="4_res_success", color=circular_colors[3], label="4 unrestricted agents", ax=ax_hybrid_rand)
+hybrid_rand.plot(kind="scatter", x="p1", y="5_res_success", color=circular_colors[4], label="3 unrestricted agents", ax=ax_hybrid_rand)
+hybrid_rand.plot(kind="scatter", x="p1", y="6_res_success", color=circular_colors[5], label="2 unrestricted agents", ax=ax_hybrid_rand)
+hybrid_rand.plot(kind="scatter", x="p1", y="7_res_success", color=circular_colors[6], label="1 unrestricted agent", ax=ax_hybrid_rand)
 baseline.plot(kind="scatter", x="p1", y="success_complete", color=circular_colors[7], marker=markers[3], label="No restrictions", ax=ax_hybrid_rand)
 ax_hybrid_rand.set_xlabel("p")
 ax_hybrid_rand.set_ylabel("Probability of successful learning")
 ax_hybrid_rand.set_title("Restricting both Dissemination and Conduct")
-plt.savefig("figures/combo.pdf")
+plt.savefig("figures/Fig6.pdf")
 
-ax_hybrid_comp = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=colors[0], marker=markers[0], label="The dual-use arm is chosen randomly")
-hybrid_low.plot(kind="scatter", x="p0", y="1_res_success", color=colors[1], marker=markers[1], label="The worse arm is the dual-use arm", ax=ax_hybrid_comp)
-hybrid_high.plot(kind="scatter", x="p1", y="1_res_success", color=colors[2], marker=markers[2], label="The better arm is the dual-use arm", ax=ax_hybrid_comp)
-baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_hybrid_comp)
-ax_hybrid_comp.set_xlabel("p")
-ax_hybrid_comp.set_ylabel("Probability of successful learning")
-ax_hybrid_comp.set_title("Restricting both Dissemination and Conduct")
-plt.savefig("figures/combo-comparison.pdf")
+# ax_hybrid_comp = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=colors[0], marker=markers[0], label="The dual-use arm is chosen randomly")
+# hybrid_low.plot(kind="scatter", x="p0", y="1_res_success", color=colors[1], marker=markers[1], label="The worse arm is the dual-use arm", ax=ax_hybrid_comp)
+# hybrid_high.plot(kind="scatter", x="p1", y="1_res_success", color=colors[2], marker=markers[2], label="The better arm is the dual-use arm", ax=ax_hybrid_comp)
+# baseline.plot(kind="scatter", x="p1", y="success_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_hybrid_comp)
+# ax_hybrid_comp.set_xlabel("p")
+# ax_hybrid_comp.set_ylabel("Probability of successful learning")
+# ax_hybrid_comp.set_title("Restricting both Dissemination and Conduct")
+# plt.savefig("figures/combo-comparison.pdf")
 
 ax_reg_comp = hybrid_rand.plot(kind="scatter", x="p1", y="1_res_success", color=colors[0], marker=markers[0], label="Both conduct and dissemination are restricted")
 diss_p_rand.plot(kind="scatter", x="p1", y="success", label="Only dissemination is restricted", color=colors[1], marker=markers[1], ax=ax_reg_comp)
@@ -144,49 +149,62 @@ baseline.plot(kind="scatter", x="p1", y="success_complete", label="No restrictio
 ax_reg_comp.set_xlabel("p")
 ax_reg_comp.set_ylabel("Probability of successful learning")
 ax_reg_comp.set_title("Comparing Regulatory Schemes")
-plt.savefig("figures/regulations-comp.pdf")
+plt.savefig("figures/Fig7.pdf")
 
 #time data
-baseline['time_succ_complete'] = baseline['time_succ_complete']/baseline['success_complete']
-diss_p_rand['success_time'] = diss_p_rand['success_time']/diss_p_rand['success']
-conduct_rand['1_res_succ_time'] = conduct_rand['1_res_succ_time']/conduct_rand['1_res_success']
-hybrid_rand['1_res_succ_time'] = hybrid_rand['1_res_succ_time']/hybrid_rand['1_res_success']
+# baseline['time_succ_complete'] = baseline['time_succ_complete']/baseline['success_complete']
+# diss_p_rand['success_time'] = diss_p_rand['success_time']/diss_p_rand['success']
+# conduct_rand['1_res_succ_time'] = conduct_rand['1_res_succ_time']/conduct_rand['1_res_success']
+# hybrid_rand['1_res_succ_time'] = hybrid_rand['1_res_succ_time']/hybrid_rand['1_res_success']
 
-# baseline['time_succ_complete'] = baseline['time_succ_complete'].apply(lambda x: x/100000)
-# diss_p_rand['success_time'] = diss_p_rand['success_time'].apply(lambda x: x/100000)
-# conduct_rand['1_res_succ_time'] = conduct_rand['1_res_succ_time'].apply(lambda x: x/100000)
-# hybrid_rand['1_res_succ_time'] = hybrid_rand['1_res_succ_time'].apply(lambda x: x/100000)
+# Not in paper
+# ax_time = diss_p_rand.plot(kind="scatter", x="p1", y="success_time", color=colors[0], marker=markers[0], label="Dissemination restricted")
+# conduct_rand.plot(kind="scatter", x="p1", y="1_res_succ_time", color=colors[1], marker=markers[1], label="Conduct restricted", ax=ax_time)
+# hybrid_rand.plot(kind="scatter", x="p1", y="1_res_succ_time", color=colors[2], marker=markers[2], label="Both restricted", ax=ax_time)
+# baseline.plot(kind="scatter", x="p1", y="time_succ_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_time)
+# ax_time.set_xlabel("p")
+# ax_time.set_ylabel("Mean Time to fixing on the correct arm")
+# ax_time.set_title("Mean number of steps until fixing on the correct arm")
+# plt.savefig("figures/time.pdf")
 
-# ax_time = baseline.plot(kind="scatter", x="p1", y="time_star", color=colors[0], marker=markers[0], label="Star graph -- baseline")
-ax_time = diss_p_rand.plot(kind="scatter", x="p1", y="success_time", color=colors[0], marker=markers[0], label="Dissemination restricted")
-conduct_rand.plot(kind="scatter", x="p1", y="1_res_succ_time", color=colors[1], marker=markers[1], label="Conduct restricted", ax=ax_time)
-hybrid_rand.plot(kind="scatter", x="p1", y="1_res_succ_time", color=colors[2], marker=markers[2], label="Both restricted", ax=ax_time)
-baseline.plot(kind="scatter", x="p1", y="time_succ_complete", color=colors[3], marker=markers[3], label="No restrictions", ax=ax_time)
-ax_time.set_xlabel("p")
-ax_time.set_ylabel("Mean Time to fixing on the correct arm")
-ax_time.set_title("Mean number of steps until fixing on the correct arm")
-plt.savefig("figures/time.pdf")
+# Alternative graph structures as demanded by the referee
+xkcdnames = ["windows blue", "amber", "greyish", "faded green", "dusty purple", "pale red"]
+xkcdnames = ["windows blue", "dusty purple", "faded green", "amber", "greyish", "pale red"]
+colors = [sns.xkcd_rgb[n] for n in xkcdnames]
+markers = ["o", "+", "x", "^", "p", "d"]
 
-def pivot(data, base, p):
-	fuzz = .001
-	row = data.loc[(data["p1"] >= p-fuzz) & (data["p1"] <= p+fuzz)]
-	rowb = base.loc[(data["p1"] >= p-fuzz) & (data["p1"] <= p+fuzz)]
+p_wheel = normalize(pandas.read_csv(dirnameOtherStructs+'wheel-p.csv', comment='#'), ['success'])
+p_cycle_1 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-1-p.csv', comment='#'), ['success'])
+p_cycle_2 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-2-p.csv', comment='#'), ['success'])
+p_cycle_3 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-3-p.csv', comment='#'), ['success'])
+p_star = normalize(pandas.read_csv(dirname+'diss-p-randomized.csv', comment='#'), ['success'])
+p_base = normalize(pandas.read_csv(dirname+'baseline-p.csv', comment='#'), ['success_complete'])
 
-	row = row.transpose()
-	row = row[3:10]
-	row.columns = ['success']
-	row['num_agents_restricted'] = range(1,8)
+ax = p_star.plot(kind='scatter', x='p1', y='success', color=colors[0], marker=markers[0], label='Star')
+p_wheel.plot(kind='scatter', x='p1', y='success', color=colors[5], marker=markers[5], label='Wheel', ax=ax)
+p_cycle_1.plot(kind='scatter', x='p1', y='success', color=colors[1], marker=markers[1], label='1-Cycle', ax=ax)
+p_cycle_2.plot(kind='scatter', x='p1', y='success', color=colors[2], marker=markers[2], label='2-Cycle', ax=ax)
+p_cycle_3.plot(kind='scatter', x='p1', y='success', color=colors[4], marker=markers[4], label='3-Cycle', ax=ax)
+p_base.plot(kind='scatter', x='p1', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+ax.set_xlabel("p")
+ax.set_ylabel("Probability of successful learning")
+ax.set_title("Alternative dissemination networks")
+plt.savefig("figures/Fig3a.pdf")
 
-	# rowb = pandas.DataFrame({'success' : [rowb.at[19,'success_complete']], 'num_agents_restricted': [0]})
-	rowb = pandas.DataFrame({'success' : [rowb['success_complete'].tolist()[0]], 'num_agents_restricted': [0]})
+agents_star = normalize(pandas.read_csv(dirname+'diss-agents-6-randomized.csv', comment='#'), ['success'])
+agents_wheel = normalize(pandas.read_csv(dirnameOtherStructs+'wheel-agents.csv', comment='#'), ['success'])
+agents_cycle_1 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-1-agents.csv', comment='#'), ['success'])
+agents_cycle_2 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-2-agents.csv', comment='#'), ['success'])
+agents_cycle_3 = normalize(pandas.read_csv(dirnameOtherStructs+'cycle-3-agents.csv', comment='#'), ['success'])
+agents_base = normalize(pandas.read_csv(dirname+'baseline-agents-6.csv', comment='#'), ['success_complete'])
 
-	return row.append(rowb)
-
-# d6 = pivot(conduct_rand, baseline, .6)
-# d7 = pivot(conduct_rand, baseline, .7)
-# d8 = pivot(conduct_rand, baseline, .8)
-
-# ax_conduct_combined = d6.plot(kind="scatter", x="num_agents_restricted", color=colors[0], marker=markers[0], y="success")
-# d7.plot(kind="scatter", x="num_agents_restricted", y="success", color=colors[-1], marker=markers[1], ax=ax_conduct_combined)
-# d8.plot(kind="scatter", x="num_agents_restricted", y="success", color=colors[2], marker=markers[2], ax=ax_conduct_combined)
-# plt.savefig("conduct-arms.pdf")
+ax = agents_star.plot(kind='scatter', x='num_agents', y='success', color=colors[0], marker=markers[0], label='Star')
+agents_wheel.plot(kind='scatter', x='num_agents', y='success', color=colors[5], marker=markers[5], label='Wheel', ax=ax)
+agents_cycle_1.plot(kind='scatter', x='num_agents', y='success', color=colors[1], marker=markers[1], label='1-Cycle', ax=ax)
+agents_cycle_2.plot(kind='scatter', x='num_agents', y='success', color=colors[2], marker=markers[2], label='2-Cycle', ax=ax)
+agents_cycle_3.plot(kind='scatter', x='num_agents', y='success', color=colors[4], marker=markers[4], label='3-Cycle', ax=ax)
+agents_base.plot(kind='scatter', x='num_agents', y='success_complete', color=colors[3], marker=markers[3], label='No restrictions', ax=ax)
+ax.set_xlabel("Number of agents")
+ax.set_ylabel("Probability of successful learning")
+ax.set_title("Alternative dissemination networks")
+plt.savefig("figures/Fig3b.pdf")
